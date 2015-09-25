@@ -123,16 +123,16 @@ public class DesktopLogin extends javax.swing.JFrame {
         char[] char_password = inPassword.getPassword();
         String str_username = inUserName.getText();
         
-        if( loginValidCheck(char_password, str_username) ) {
+        if( loginValidCheck(str_username, char_password) ) {
             //Create new window
             dispose();
             new DesktopUIMain().setVisible(true);
         }
     }//GEN-LAST:event_BtnAuthenticateActionPerformed
 
-    public boolean loginValidCheck(char[] char_array, String username) {
+    public boolean loginValidCheck(String username, char[] char_array) {
         String password = new String(char_array);
-        
+
         // Check if either entry is empty
         if (password.length() <= 0 || username.length() <= 0) {
             loginStatus.setText("Can't have blank entry");
@@ -160,7 +160,7 @@ public class DesktopLogin extends javax.swing.JFrame {
             return false;
         }
         String[] unsupportedChars = {"^", "&", "*"};
-
+        
         // Check for unsupported characters
         for (int i = 0; i < unsupportedChars.length; i++) {
             if(StringUtils.countOccurrencesOf(username, unsupportedChars[i]) >= 1) {
