@@ -135,7 +135,13 @@ public class DesktopLogin extends javax.swing.JFrame {
 
         // Check if either entry is empty
         if (password.length() <= 0 || username.length() <= 0) {
-            loginStatus.setText("Can't have blank entry");
+            loginStatus.setText("Can't have empty entry");
+            return false;
+        }
+        
+        // Check size of input. Greater than 254 is not allowed.
+        if (password.length() > 254 || username.length() > 254) {
+            loginStatus.setText("Username or password exceeds char limit of 254");
             return false;
         }
         

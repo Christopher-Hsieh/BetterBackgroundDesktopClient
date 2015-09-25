@@ -43,6 +43,7 @@ public class TestLoginJUnit {
         // 3 empty password
         // 4 empty user
         // 5 unsupported chars
+        // 6 & 7 past char limit
         
         // Two entries that are valid and will be passable to meteor for validation
         {"valid@purdue.edu","password"},
@@ -54,7 +55,11 @@ public class TestLoginJUnit {
         // Empty username
         {" ","pass"},
         // Unsupported characters
-        {"#$%^@live.or$","@#$@"}
+        {"#$%^@live.or$","@#$@"},
+        // Past char limit (254)
+        {"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx","x"},
+        {"x","xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"}
+    
     };
     
     // Test login entries
@@ -73,7 +78,9 @@ public class TestLoginJUnit {
         assertEquals(false, DL.loginValidCheck(testEntries[3][0], testEntries[3][1].toCharArray()));
         assertEquals(false, DL.loginValidCheck(testEntries[4][0], testEntries[4][1].toCharArray()));
         assertEquals(false, DL.loginValidCheck(testEntries[5][0], testEntries[5][1].toCharArray()));
-
+        assertEquals(false, DL.loginValidCheck(testEntries[6][0], testEntries[6][1].toCharArray()));
+        assertEquals(false, DL.loginValidCheck(testEntries[7][0], testEntries[7][1].toCharArray()));
+       
         // Ensure Login window is destroyed properly
         DL.dispose();
         assertEquals(false, DL.isDisplayable());
