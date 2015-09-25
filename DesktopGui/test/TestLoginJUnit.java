@@ -62,12 +62,21 @@ public class TestLoginJUnit {
     public void testLoginEntries() {
         DesktopLogin DL = new DesktopLogin();
         
+        // Ensure the window is created
+        DL.setVisible(true);
+        assertEquals(true, DL.isVisible());
+        
+        // Complete login verification
         assertEquals(true, DL.loginValidCheck(testEntries[0][0], testEntries[0][1].toCharArray()));
         assertEquals(true, DL.loginValidCheck(testEntries[1][0], testEntries[1][1].toCharArray()));
         assertEquals(false, DL.loginValidCheck(testEntries[2][0], testEntries[2][1].toCharArray()));
         assertEquals(false, DL.loginValidCheck(testEntries[3][0], testEntries[3][1].toCharArray()));
         assertEquals(false, DL.loginValidCheck(testEntries[4][0], testEntries[4][1].toCharArray()));
         assertEquals(false, DL.loginValidCheck(testEntries[5][0], testEntries[5][1].toCharArray()));
+
+        // Ensure Login window is destroyed properly
+        DL.dispose();
+        assertEquals(false, DL.isDisplayable());
     }
     
 }
