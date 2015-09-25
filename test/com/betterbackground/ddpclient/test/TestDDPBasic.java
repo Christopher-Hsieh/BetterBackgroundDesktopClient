@@ -19,10 +19,10 @@ package com.betterbackground.ddpclient.test;
 import java.lang.reflect.Method;
 
 import com.google.gson.Gson;
-import com.keysolutions.ddpclient.DDPClient;
-import com.keysolutions.ddpclient.EmailAuth;
-import com.keysolutions.ddpclient.TokenAuth;
-import com.keysolutions.ddpclient.UsernameAuth;
+import com.betterbackground.ddpclient.DDPClient;
+import com.betterbackground.ddpclient.EmailAuth;
+import com.betterbackground.ddpclient.TokenAuth;
+import com.betterbackground.ddpclient.UsernameAuth;
 
 import junit.framework.TestCase;
 
