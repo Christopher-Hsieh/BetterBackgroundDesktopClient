@@ -50,7 +50,7 @@ public class UserHandler extends Observable {
 		Map<String,Object> options = new HashMap<String,Object>();
 		Object[] methodArgs = new Object[1];
         methodArgs[0] = options;
-        options.put("email", email +'8');
+        options.put("email", email);
         options.put("password", password);
         ddp.call("createUser", methodArgs, new DDPListener(){
         	@Override
