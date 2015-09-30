@@ -3,89 +3,73 @@ package com.betterbackground.userHandler;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
 
 import com.betterbackground.ddpclient.DDPClient;
-import com.betterbackground.ddpclient.DDPClient.DdpMessageField;
+import com.betterbackground.ddpclient.DDPClientObserver;
+import com.betterbackground.ddpclient.DDPClientObserver.DDPSTATE;
 import com.betterbackground.ddpclient.DDPListener;
 import com.betterbackground.ddpclient.EmailAuth;
-import com.betterbackground.ddpclient.test.TestConstants;
 import com.betterbackground.ddpclient.Constants;
 
 
-public class UserHandler {
-	public static void main(String[] args){
-		UserHandler u = new UserHandler();
-		u.login(TestConstants.sMeteorUsername, TestConstants.sMeteorPassword);
-		while(!u.loggedIn){
-			try {
-				Thread.sleep(5000);
-				System.out.println("Waiting for response...");
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-	
+public class UserHandler extends Observable {
 	DDPClient ddp = null;
+	DDPClientObserver obs = null;
 	
-	public UserHandler(){
-		try {
-			ddp = new DDPClient(Constants.sMeteorHost, Constants.sMeteorPort);
-			ddp.connect();
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public UserHandler() throws URISyntaxException, InterruptedException{
+		ddp = new DDPClient(Constants.sMeteorHost, Constants.sMeteorPort);
+		obs = new DDPClientObserver();
+		ddp.addObserver(obs);
+		ddp.connect();
+			
+		//add timeout after so many attempts
+		while(obs.mDdpState != DDPSTATE.Connected){
+			Thread.sleep(500);
 		}
 	}
 
-	boolean loggedIn = false;
-	boolean userCreated = false;
-	public boolean login(String email, String password){
+	public void login(String email, String password) throws InterruptedException{
         Object[] methodArgs = new Object[1];
         EmailAuth emailpass = new EmailAuth(email, password);
         methodArgs[0] = emailpass;
-        ddp.call("login", methodArgs, new DDPListener() {
-            @Override
-			public void onResult(Map<String, Object> resultFields) {
-                if (resultFields.containsKey(DdpMessageField.ERROR)) {
-                    Map<String, Object> error = (Map<String, Object>) resultFields.get(DdpMessageField.ERROR);
-                    String errorReason = (String) error.get("reason");
-                    System.err.println("Login failure: " + errorReason);
-                } else {
-                	loggedIn = true;
-                }
-            }
+        ddp.call("login", methodArgs, new DDPListener(){
+        	@Override
+        	public void onResult(Map<String, Object> resultFields) {
+        		setChanged();
+        		if(resultFields.containsKey("error")){
+        			notifyObservers(false);
+        		} else {
+        			notifyObservers(true);
+        		}
+        	}
         });
-	
-		return loggedIn;
 	}
 	
-	public boolean createUser(String email, String password){		
+	public void createUser(String email, String password) throws InterruptedException{		
 		Map<String,Object> options = new HashMap<String,Object>();
 		Object[] methodArgs = new Object[1];
         methodArgs[0] = options;
-        options.put("email", email);
+        options.put("email", email +'8');
         options.put("password", password);
-        ddp.call("createUser", methodArgs, new DDPListener() {
-            @Override
-			public void onResult(Map<String, Object> resultFields) {
-                if (resultFields.containsKey(DdpMessageField.ERROR)) {
-                    Map<String, Object> error = (Map<String, Object>) resultFields.get(DdpMessageField.ERROR);
-                    String errorReason = (String) error.get("reason");
-                    System.err.println("Create account failure: " + errorReason);
-                } else {
-                	userCreated = true;
-                }
-            }
+        ddp.call("createUser", methodArgs, new DDPListener(){
+        	@Override
+        	public void onResult(Map<String, Object> resultFields) {
+        		if(resultFields.containsKey("error")){
+        			notifyObservers(false);
+        		} else {
+        			notifyObservers(true);
+        		}
+        	}
         });
-        
-        return userCreated;
+	}
+	
+	public void getLatestChannels(){
+		ddp.subscribe("latestChannels", new Object[] {}, new DDPListener(){
+        	@Override
+        	public void onResult(Map<String, Object> resultFields) {
+        		notifyObservers(resultFields);
+        	}
+        });
 	}
 }
