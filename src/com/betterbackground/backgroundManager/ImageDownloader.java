@@ -4,7 +4,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-
+/*to do:
+ * make it cycle through a folder, right now it is just passed images for testing
+ */
 public class ImageDownloader extends Thread {
 
 

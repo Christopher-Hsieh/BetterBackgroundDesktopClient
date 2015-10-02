@@ -1,4 +1,8 @@
+import java.io.File;
 import java.util.HashMap;
+
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import com.sun.jna.Native;
 import com.sun.jna.platform.win32.WinDef.UINT_PTR;
 import com.sun.jna.win32.StdCallLibrary;
@@ -6,8 +10,24 @@ import com.sun.jna.win32.W32APIFunctionMapper;
 import com.sun.jna.win32.W32APITypeMapper;
 
 
-public class WallpaperCycler {
+public class WallpaperCycler extends Thread{
+	String wall;
+	public WallpaperCycler(String dest){
+		wall = dest;
+		//need to make it so that it runs continuously and just cycles through wallpapers in a folder
+	}
+	public void run(){
+		CycleWallpaper(wall);
+	}
     public static int CycleWallpaper(String path){
+    	/*final FileNameExtensionFilter extensionFilter = new FileNameExtensionFilter("jpeg", "png");
+    			final File file = new File("whatever");
+    			for (final File child : file.listFiles()) {
+    			    if(extensionFilter.accept(child)) {
+    			        //do stuff with image
+    			    }
+    			}
+    			*/
 	      SPI.INSTANCE.SystemParametersInfo(
 	              new UINT_PTR(SPI.SPI_SETDESKWALLPAPER), 
 	              new UINT_PTR(0), 
