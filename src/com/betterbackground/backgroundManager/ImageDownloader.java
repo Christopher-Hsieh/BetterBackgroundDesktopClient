@@ -27,34 +27,46 @@ public class ImageDownloader extends Thread {
 	ImageDownloader(String someURLS[]){
 		count = 0;
 		passedURLS = someURLS;
-		System.out.println("passed string is " + someURLS[3]);
+		System.out.println("passed string is " + someURLS[count]);
 	}
 	
 	ImageDownloader(){
 		
 	}
 	
-  public void run(int count){
-	  System.out.println(count);
-	  if(count > 5){
-		  System.out.println("count: "+ count);
-	  }else{
-		  String temp = passedURLS[count];
+  public void run(int count, String [] stuff){
+	 // if(count > 5){
+	  passedURLS = stuff;
+	  String temp = null;
+	  	try{
+	  		System.out.println("LOOKING FOR:  "+ passedURLS[count]);
+	  		temp = passedURLS[count];
+	  	}catch(Exception e){
+	  		temp = "haha";
+	  	}
+	//  }else{
 		// System.out.println(temp);
+	  	if(temp.equals("haha")){
+	  		System.out.println("ITS NULL");
+	  		finalImage = "haha";
+	  		locals.add("haha");
+	  	}else{
 		  finalImage = saveImage(temp);
 		  locals.add(finalImage);
-		  if(count > 3){
-			   removeImage = destroyImage();
-			   locals.remove(0);
-		  }
+		 // if(count > 3){
+		//	   removeImage = destroyImage();
+		//	   locals.remove(0);
+		 // }
 		  //System.out.println("after");
-	  }
+	  //}
+	  	}
 
   }
   
   public String destroyImage(){
 	  String temp;
 	  temp = locals.get(0);
+	  System.out.println("DESTRYOING: " + locals.get(0));
 	  File file = new File("C:\\Users\\Public\\BetterBackground\\" + locals.get(0));
 	  try{
 		  file.delete();
@@ -69,7 +81,6 @@ public class ImageDownloader extends Thread {
 	  int len; 
 	  String destinationFile = "C:\\Users\\Public\\BetterBackground\\";
 	  String name; 
-	  System.out.println("inside saveImage" + imageUrl);
 	  
 	  URL url = null; 
 	  InputStream is;
@@ -78,6 +89,9 @@ public class ImageDownloader extends Thread {
 	  String fileType = "";
 	  HttpURLConnection connection;
 	  
+	  if (imageUrl.equals(null)){
+		  return imageUrl;
+	  }
 	  try {
 		    url = new URL(imageUrl);
 		    if(url == null){
@@ -104,10 +118,9 @@ public class ImageDownloader extends Thread {
 			}else{
 				System.out.println("new format");
 			}
-			System.out.println("inside saveImage, filetype: " + fileType);
+			System.out.println("inside saveImage, filetype: " + fileType + " filename: " + destinationFile);
 			
 		    ImageIO.write(image, fileType, new File(destinationFile));
-		    System.out.println("HEY THIS IS THE DEST" + destinationFile);
 		} catch (IOException e) {
 			System.out.println(e);
 			System.out.println("halp");
