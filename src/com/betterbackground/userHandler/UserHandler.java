@@ -22,15 +22,15 @@ public class UserHandler extends Observable {
 	public static boolean accountCreated;
 	public Map<String, Object> myChannels;
 	
-	public static void main(String[] args) throws InterruptedException, URISyntaxException{
-		UserHandler userHandler = new UserHandler();
-		
-		userHandler.addObserver((Observable obj, Object arg) -> { 
-			System.out.println(loggedIn);
-        });
-		
-		userHandler.login(TestConstants.sMeteorUsername, TestConstants.sMeteorPassword);
-	}
+//	public static void main(String[] args) throws InterruptedException, URISyntaxException{
+//		UserHandler userHandler = new UserHandler();
+//		
+//		userHandler.addObserver((Observable obj, Object arg) -> { 
+//			System.out.println(loggedIn);
+//        });
+//		
+//		userHandler.login(TestConstants.sMeteorUsername, TestConstants.sMeteorPassword);
+//	}
 	
 	public UserHandler() throws URISyntaxException, InterruptedException{
 		int connectAttempts = 0;
