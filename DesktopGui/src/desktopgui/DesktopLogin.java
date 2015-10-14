@@ -5,6 +5,7 @@
  */
 package desktopgui;
 
+import org.springframework.util.StringUtils;
 /**
  *
  * @author Chris
@@ -33,8 +34,15 @@ public class DesktopLogin extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         BtnAuthenticate = new javax.swing.JButton();
+        loginStatus = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        inUserName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inUserNameActionPerformed(evt);
+            }
+        });
 
         inPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -55,30 +63,32 @@ public class DesktopLogin extends javax.swing.JFrame {
             }
         });
 
+        loginStatus.setText("Press \"sign in\" once entries are filled in");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(89, 89, 89)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(109, Short.MAX_VALUE)
-                        .addComponent(jLabel1))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(89, 89, 89)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(BtnAuthenticate))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(inUserName, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                                .addComponent(inPassword)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(106, 106, 106))
+                        .addGap(10, 10, 10)
+                        .addComponent(BtnAuthenticate))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(inUserName, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                        .addComponent(inPassword)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addComponent(loginStatus)
+                .addGap(57, 57, 57))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -88,12 +98,13 @@ public class DesktopLogin extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(inUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel2)
+                    .addComponent(loginStatus))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(inPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(11, 11, 11)
                 .addComponent(BtnAuthenticate)
                 .addContainerGap(19, Short.MAX_VALUE))
         );
@@ -112,11 +123,70 @@ public class DesktopLogin extends javax.swing.JFrame {
         char[] char_password = inPassword.getPassword();
         String str_username = inUserName.getText();
         
-        //if (pass and user are valid) {
-            // Create new window
+        if( loginValidCheck(str_username, char_password) ) {
+            //Create new window
             dispose();
             new DesktopUIMain().setVisible(true);
+        }
     }//GEN-LAST:event_BtnAuthenticateActionPerformed
+
+    public boolean loginValidCheck(String username, char[] char_array) {
+        String password = new String(char_array);
+
+        // Check if either entry is empty
+        if (password.length() <= 0 || username.length() <= 0) {
+            loginStatus.setText("Can't have empty entry");
+            return false;
+        }
+        
+        // Check size of input. Greater than 254 is not allowed.
+        if (password.length() > 254 || username.length() > 254) {
+            loginStatus.setText("Username or password exceeds char limit of 254");
+            return false;
+        }
+        
+        // Remove all whitespaces, they are not allowed
+        int original_len = username.length();
+        username = username.replaceAll("\\s+", "");
+        if (original_len > username.length()) {
+            loginStatus.setText("White spaces are not allowed");
+            return false;
+        }
+        
+        original_len = password.length();
+        password = password.replaceAll("\\s+", "");
+        if (original_len > password.length()) {
+            loginStatus.setText("White spaces are not allowed");
+            return false;
+        }
+        
+        // Ensure there is exactly ONE "@" and ONE "." in the username
+        if(StringUtils.countOccurrencesOf(username, ".") != 1 || StringUtils.countOccurrencesOf(username, "@") != 1) {
+            loginStatus.setText("Invalid Username");
+            return false;
+        }
+        String[] unsupportedChars = {"^", "&", "*"};
+        
+        // Check for unsupported characters
+        for (int i = 0; i < unsupportedChars.length; i++) {
+            if(StringUtils.countOccurrencesOf(username, unsupportedChars[i]) >= 1) {
+                loginStatus.setText("An unsupported Character was parsed");
+                return false;
+            }
+        }
+        
+        
+        
+        
+        return true;
+    }
+    
+    
+    
+    
+    private void inUserNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inUserNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inUserNameActionPerformed
 
     /**
      * @param args the command line arguments
@@ -149,6 +219,7 @@ public class DesktopLogin extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new DesktopLogin().setVisible(true);
+ 
             }
         });
     }
@@ -160,5 +231,6 @@ public class DesktopLogin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel loginStatus;
     // End of variables declaration//GEN-END:variables
 }
