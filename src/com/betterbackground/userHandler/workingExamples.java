@@ -2,20 +2,41 @@ package com.betterbackground.userhandler;
 
 import java.net.URISyntaxException;
 
-import com.betterbackground.ddpclient.DDPClientObserver;
-import com.betterbackground.ddpclient.test.TestConstants;
+import org.json.simple.JSONObject;
 
-public class workingExamples implements LoginListener{
+import com.betterbackground.ddpclient.test.TestConstants;
+import com.betterbackground.userhandler.Interfaces.LoginListener;
+import com.betterbackground.userhandler.Interfaces.MyChannelsListener;
+
+public class WorkingExamples implements LoginListener, MyChannelsListener{
+	static UserHandler userHandler;
+	
 	public static void main(String[] args) throws InterruptedException, URISyntaxException{
-		UserHandler userHandler = new UserHandler();
-		workingExamples m = new workingExamples();
+		userHandler = new UserHandler();
+		WorkingExamples m = new WorkingExamples();
+		
+		//Add listeners for class
 		userHandler.addLoginListener(m);
+		userHandler.addMyChannelsListener(m);
+		
 		userHandler.login(TestConstants.sMeteorUsername, TestConstants.sMeteorPassword);
+		
+		Thread.sleep(500);
+		
+		userHandler.getMyChannels();
 	}
 	
+	//returns: true/false
 	@Override
 	public void loginResult(boolean result) {
-		// TODO Auto-generated method stub
 		System.out.println(result);
 	}
+
+	//returns: jsonObject/null
+	@Override
+	public void myChannelsResult(JSONObject jsonObject) {
+		//Not currently working on meteor end
+		System.out.println(jsonObject);
+	}
+	
 }

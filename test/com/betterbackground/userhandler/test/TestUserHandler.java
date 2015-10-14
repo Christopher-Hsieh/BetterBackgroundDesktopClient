@@ -1,8 +1,8 @@
 package com.betterbackground.userhandler.test;
 
 import com.betterbackground.ddpclient.test.TestConstants;
-import com.betterbackground.userhandler.LoginListener;
 import com.betterbackground.userhandler.UserHandler;
+import com.betterbackground.userhandler.Interfaces.LoginListener;
 
 import junit.framework.TestCase;
 
