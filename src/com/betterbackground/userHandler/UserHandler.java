@@ -24,7 +24,7 @@ public class UserHandler extends Observable {
 	DDPClient ddp = null;
 	DDPClientObserver obs = null;
 	public Map<String, Object> myChannels;
-	
+
 	public UserHandler() throws URISyntaxException, InterruptedException{
 		int connectAttempts = 0;
 		ddp = new DDPClient(Constants.sMeteorHost, Constants.sMeteorPort);
