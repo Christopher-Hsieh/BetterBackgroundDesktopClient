@@ -20,7 +20,6 @@ import java.lang.reflect.Method;
 
 import com.google.gson.Gson;
 import com.betterbackground.ddpclient.DDPClient;
-import com.betterbackground.ddpclient.EmailAuth;
 import com.betterbackground.ddpclient.TokenAuth;
 import com.betterbackground.ddpclient.UsernameAuth;
 
@@ -51,10 +50,6 @@ public class TestDDPBasic extends TestCase {
         Gson gson = new Gson();
         String jsonUserpass = gson.toJson(userpass);
         assertEquals("{\"password\":\"pw\",\"user\":{\"username\":\"test\"}}", jsonUserpass);
-        // test email/password is encoded properly
-        EmailAuth emailpass = new EmailAuth("test@me.com", "pw");
-        String jsonEmailpass = gson.toJson(emailpass);
-        assertEquals("{\"password\":\"pw\",\"user\":{\"email\":\"test@me.com\"}}", jsonEmailpass);
         // test resumetoken is encoded properly
         TokenAuth token = new TokenAuth("mytoken");
         String jsonToken = gson.toJson(token);

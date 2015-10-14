@@ -26,6 +26,6 @@ public final class TestConstants {
     
     // note also that your Meteor server app should also have 
     // a user named test@test.com with a password of "password"
-    public static final String sMeteorUsername = "test@test.com";
+    public static final String sMeteorUsername = "test";
     public static final String sMeteorPassword = "password";
 }
