@@ -57,7 +57,6 @@ public class UserHandler extends Observable {
         ddp.call("login", methodArgs, new DDPListener(){
         	@Override
         	public void onResult(Map<String, Object> resultFields) {
-        		setChanged();
         		if(resultFields.containsKey("error")){
         			@SuppressWarnings("unchecked")
 					Map<String, Object> error = (Map<String, Object>) resultFields.get(DdpMessageField.ERROR);
@@ -106,7 +105,7 @@ public class UserHandler extends Observable {
         		} else {
         			myChannels = resultFields;
             		setChanged();
-            		notifyObservers(resultFields);
+            		notifyObservers();
         		}
         	}
         });
