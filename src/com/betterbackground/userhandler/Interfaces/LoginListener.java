@@ -1,4 +1,4 @@
-package com.betterbackground.userhandlertemp.Interfaces;
+package com.betterbackground.userhandler.Interfaces;
 
 public interface LoginListener {
 	void loginResult(boolean result);

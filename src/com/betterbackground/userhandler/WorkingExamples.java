@@ -1,12 +1,12 @@
-package com.betterbackground.userhandlertemp;
+package com.betterbackground.userhandler;
 
 import java.net.URISyntaxException;
 
 import org.json.simple.JSONObject;
 
 import com.betterbackground.ddpclient.test.TestConstants;
-import com.betterbackground.userhandlertemp.Interfaces.LoginListener;
-import com.betterbackground.userhandlertemp.Interfaces.MyChannelsListener;
+import com.betterbackground.userhandler.Interfaces.LoginListener;
+import com.betterbackground.userhandler.Interfaces.MyChannelsListener;
 
 public class WorkingExamples implements LoginListener, MyChannelsListener{
 	static UserHandler userHandler;
