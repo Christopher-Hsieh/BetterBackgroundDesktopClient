@@ -20,8 +20,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import org.eclipse.swt.graphics.Image;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 

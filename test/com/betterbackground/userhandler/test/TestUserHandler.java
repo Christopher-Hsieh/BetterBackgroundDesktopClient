@@ -2,25 +2,19 @@ package com.betterbackground.userhandler.test;
 
 import com.betterbackground.ddpclient.test.TestConstants;
 import com.betterbackground.userhandler.UserHandler;
+import com.betterbackground.userhandler.Interfaces.LoginListener;
 
 import junit.framework.TestCase;
 
-public class TestUserHandler extends TestCase {
+public class TestUserHandler extends TestCase implements LoginListener {
 	public void testLogin() throws Exception {
 		UserHandler userHandler = new UserHandler();
 		userHandler.login(TestConstants.sMeteorUsername, TestConstants.sMeteorPassword);
-		
-		Thread.sleep(500);
-		
-		assertEquals(UserHandler.loggedIn, true);
 	}
-	
-	public void testCreateAccount() throws Exception {
-		UserHandler userHandler = new UserHandler();
-		userHandler.createUser(TestConstants.sMeteorUsername, TestConstants.sMeteorPassword);
-		
-		Thread.sleep(500);
-		
-		assertEquals(UserHandler.accountCreated, false);
+
+	@Override
+	public void loginResult(boolean result) {
+		// TODO Auto-generated method stub
+		System.out.println("HERE");
 	}
 }
