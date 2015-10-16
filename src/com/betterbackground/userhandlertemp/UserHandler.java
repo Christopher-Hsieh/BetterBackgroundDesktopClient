@@ -1,4 +1,4 @@
-package com.betterbackground.userhandler;
+package com.betterbackground.userhandlertemp;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -11,8 +11,8 @@ import com.betterbackground.ddpclient.DDPClient;
 import com.betterbackground.ddpclient.DDPClient.DdpMessageField;
 import com.betterbackground.ddpclient.DDPClientObserver;
 import com.betterbackground.ddpclient.DDPClientObserver.DDPSTATE;
-import com.betterbackground.userhandler.Interfaces.LoginListener;
-import com.betterbackground.userhandler.Interfaces.MyChannelsListener;
+import com.betterbackground.userhandlertemp.Interfaces.LoginListener;
+import com.betterbackground.userhandlertemp.Interfaces.MyChannelsListener;
 import com.betterbackground.ddpclient.DDPListener;
 import com.betterbackground.ddpclient.UsernameAuth;
 import com.betterbackground.ddpclient.Constants;
