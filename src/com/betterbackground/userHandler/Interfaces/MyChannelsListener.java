@@ -1,4 +1,4 @@
-package com.betterbackground.userhandler.Interfaces;
+package com.betterbackground.userHandler.Interfaces;
 
 import org.json.simple.JSONObject;
 
