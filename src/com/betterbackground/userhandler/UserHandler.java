@@ -2,15 +2,14 @@ package com.betterbackground.userhandler;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Observable;
-
-import org.json.simple.JSONObject;
 
 import com.betterbackground.ddpclient.DDPClient;
 import com.betterbackground.ddpclient.DDPClient.DdpMessageField;
 import com.betterbackground.ddpclient.DDPClientObserver;
 import com.betterbackground.ddpclient.DDPClientObserver.DDPSTATE;
+import com.betterbackground.userhandler.Interfaces.GetUrlsListener;
 import com.betterbackground.userhandler.Interfaces.LoginListener;
 import com.betterbackground.userhandler.Interfaces.MyChannelsListener;
 import com.betterbackground.userhandler.Interfaces.UpdateListener;
@@ -22,14 +21,14 @@ import com.betterbackground.ddpclient.Constants;
 public class UserHandler implements UpdateListener {
 	private ArrayList<LoginListener> loginListeners = new ArrayList<LoginListener>();
 	private ArrayList<MyChannelsListener> myChannelsListeners = new ArrayList<MyChannelsListener>();
-	private int channelSize;
+	private ArrayList<GetUrlsListener> getUrlsListeners = new ArrayList<GetUrlsListener>();
 	DDPClient ddp = null;
 	DDPClientObserver obs = null;
 	public Map<String, Object> myChannels;
 
 	public UserHandler() throws URISyntaxException, InterruptedException{
 		int connectAttempts = 0;
-		channelSize = 0;
+		myChannels = new HashMap<String, Object>();
 		ddp = new DDPClient(Constants.sMeteorHost, Constants.sMeteorPort);
 		obs = new DDPClientObserver();
 		obs.addUpdateListener(this);
@@ -55,12 +54,20 @@ public class UserHandler implements UpdateListener {
 		myChannelsListeners.add(listener);
 	}
 	
+	public void addGetUrlsListener(GetUrlsListener listener){
+		getUrlsListeners.add(listener);
+	}
+	
+	/*
+	 * This function gets notified of any state change in the observer
+	 */
 	@Override
 	public void observerUpdated(Object msg) {
-		if(obs.mCollections.get("channels") != null && channelSize != obs.mCollections.get("channels").size() && obs.mCollections.get("channels").size() > 0){
-			channelSize = obs.mCollections.get("channels").size();
+		//check if channels collection changes. If so then notify listeners.
+		if(obs.mCollections.get("channels") != null && !myChannels.equals(obs.mCollections.get("channels"))){
+			myChannels = obs.mCollections.get("channels");
 			for (MyChannelsListener l : myChannelsListeners){
-				l.myChannelsResult(obs.mCollections.get("channels"));
+				l.myChannelsResult(myChannels);
 			}
 		}
 //		System.out.println(msg);
@@ -70,7 +77,7 @@ public class UserHandler implements UpdateListener {
 //        System.out.println(msgtype);
 	}
 
-	public void login(String username, String password) throws InterruptedException{
+	public void login(String username, String password){
         Object[] methodArgs = new Object[1];
         UsernameAuth userpass = new UsernameAuth(username, password);
         methodArgs[0] = userpass;
@@ -87,18 +94,34 @@ public class UserHandler implements UpdateListener {
         		} else {
         			for (LoginListener l : loginListeners)
         	            l.loginResult(true);
+        			//subscribe to my channels
+        			subMyChannels();
         		}
         	}
         });
 	}
 	
-	//JSON: Channel Objects
-	//Title
-	//Person Created
-	//Query
-	//Store entire JSON object to pass back later when toggled
-	public void getMyChannels(){
+	public void subMyChannels(){
 		ddp.subscribe("myChannels", new Object[] {}, obs);
+	}
+	
+	public void getChannelUrls(String channelId) {
+        Object[] methodArgs = new Object[1];
+        methodArgs[0] = channelId;
+        
+        ddp.call("/channels/getUrls", methodArgs, new DDPListener(){
+			@Override
+        	public void onResult(Map<String, Object> resultFields) {
+        		if(resultFields.containsKey("error")){
+					@SuppressWarnings("unchecked")
+					Map<String, Object> error = (Map<String, Object>) resultFields.get(DdpMessageField.ERROR);
+                    System.err.println("login failure: " + (String) error.get("reason"));
+        		} else {
+        			for (GetUrlsListener l : getUrlsListeners)
+        	            l.getUrlsResult(resultFields.get(DdpMessageField.RESULT));
+        		}
+        	}
+        });
 	}
 	
 }
