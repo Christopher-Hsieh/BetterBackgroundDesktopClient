@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
 import com.betterbackground.ddpclient.DDPClient;
 import com.betterbackground.ddpclient.DDPClient.DdpMessageField;
 import com.betterbackground.ddpclient.DDPClientObserver;
@@ -22,8 +23,8 @@ public class UserHandler implements UpdateListener {
 	private ArrayList<LoginListener> loginListeners = new ArrayList<LoginListener>();
 	private ArrayList<MyChannelsListener> myChannelsListeners = new ArrayList<MyChannelsListener>();
 	private ArrayList<GetUrlsListener> getUrlsListeners = new ArrayList<GetUrlsListener>();
-	DDPClient ddp = null;
-	DDPClientObserver obs = null;
+	public DDPClient ddp = null;
+	public DDPClientObserver obs = null;
 	public Map<String, Object> myChannels;
 
 	public UserHandler() throws URISyntaxException, InterruptedException{
@@ -36,9 +37,9 @@ public class UserHandler implements UpdateListener {
 		ddp.connect();
 			
 		//add timeout after so many attempts
+		//replace this using state change
 		while(obs.mDdpState != DDPSTATE.Connected){
 			Thread.sleep(1000);
-			System.err.println("Attempting to connect...");
 			if(connectAttempts++ == 20){
 				System.err.println("Too many failed attempts");
 				break;
@@ -58,13 +59,17 @@ public class UserHandler implements UpdateListener {
 		getUrlsListeners.add(listener);
 	}
 	
+	public void disconnect(){
+		ddp.disconnect();
+	}
+	
 	/*
 	 * This function gets notified of any state change in the observer
 	 */
 	@Override
 	public void observerUpdated(Object msg) {
 		//check if channels collection changes. If so then notify listeners.
-		if(obs.mCollections.get("channels") != null && !myChannels.equals(obs.mCollections.get("channels"))){
+		if(obs.mCollections.containsKey("channels") && !myChannels.equals(obs.mCollections.get("channels"))){
 			myChannels = obs.mCollections.get("channels");
 			for (MyChannelsListener l : myChannelsListeners){
 				l.myChannelsResult(myChannels);
