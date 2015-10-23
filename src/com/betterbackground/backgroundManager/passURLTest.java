@@ -1,7 +1,8 @@
+package com.betterbackground.backgroundManager;
+
 import static org.junit.Assert.*;
 import java.util.Arrays;
 import org.junit.Test;
-
 
 public class passURLTest extends BackgroundManager {
 	String temp [] = {"www.galaxy.com", "www.coolgalaxy.com", "www.neatgalaxy.com", "www.onegalaxyonefuture.com"};

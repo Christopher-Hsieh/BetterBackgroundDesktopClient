@@ -16,6 +16,7 @@
 
 package com.betterbackground.ddpclient;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,8 @@ import com.betterbackground.ddpclient.DDPListener;
 import com.betterbackground.ddpclient.DDPClient;
 import com.betterbackground.ddpclient.DDPClient.DdpMessageField;
 import com.betterbackground.ddpclient.DDPClient.DdpMessageType;
+import com.betterbackground.userhandler.Interfaces.LoginListener;
+import com.betterbackground.userhandler.Interfaces.UpdateListener;
 
 /**
  * @author kenyee
@@ -44,6 +47,7 @@ public class DDPClientObserver extends DDPListener implements Observer {
         Added,
         Closed,
     };
+    private ArrayList<UpdateListener> updateListeners;
     public DDPSTATE mDdpState;
     public String mResumeToken;
     public String mUserId;
@@ -63,7 +67,12 @@ public class DDPClientObserver extends DDPListener implements Observer {
     public DDPClientObserver() {
         mDdpState = DDPSTATE.Disconnected;
         mCollections = new HashMap<String, Map<String, Object>>();
+        updateListeners = new ArrayList<UpdateListener>();
     }
+    
+    public void addUpdateListener(UpdateListener listener){
+		updateListeners.add(listener);
+	}
     
     /** 
      * Handles processing of DDP msgs
@@ -150,7 +159,8 @@ public class DDPClientObserver extends DDPListener implements Observer {
             //TODO: handle addedBefore, movedBefore
             //dumpMap(jsonFields);
         }
-        
+        for (UpdateListener l : updateListeners)
+            l.observerUpdated(msg);
     }
 
     /**

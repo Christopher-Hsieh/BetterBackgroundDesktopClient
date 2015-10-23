@@ -1,3 +1,5 @@
+package com.betterbackground.backgroundManager;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +11,6 @@ import com.sun.jna.platform.win32.WinDef.UINT_PTR;
 import com.sun.jna.win32.StdCallLibrary;
 import com.sun.jna.win32.W32APIFunctionMapper;
 import com.sun.jna.win32.W32APITypeMapper;
-
 
 public class WallpaperCycler extends Thread{
 		String dest = "C:\\Users\\Public\\BetterBackground";

@@ -1,3 +1,5 @@
+package com.betterbackground.backgroundManager;
+
 import static org.junit.Assert.*;
 
 import java.io.File;
