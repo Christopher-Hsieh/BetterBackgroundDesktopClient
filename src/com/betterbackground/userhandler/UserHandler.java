@@ -22,12 +22,14 @@ import com.betterbackground.ddpclient.Constants;
 public class UserHandler implements UpdateListener {
 	private ArrayList<LoginListener> loginListeners = new ArrayList<LoginListener>();
 	private ArrayList<MyChannelsListener> myChannelsListeners = new ArrayList<MyChannelsListener>();
+	private int channelSize;
 	DDPClient ddp = null;
 	DDPClientObserver obs = null;
 	public Map<String, Object> myChannels;
 
 	public UserHandler() throws URISyntaxException, InterruptedException{
 		int connectAttempts = 0;
+		channelSize = 0;
 		ddp = new DDPClient(Constants.sMeteorHost, Constants.sMeteorPort);
 		obs = new DDPClientObserver();
 		obs.addUpdateListener(this);
@@ -55,35 +57,39 @@ public class UserHandler implements UpdateListener {
 	
 	@Override
 	public void observerUpdated(Object msg) {
-		System.out.println(msg);
-		@SuppressWarnings("unchecked")
-		Map<String, Object> jsonFields = (Map<String, Object>) msg;
-        String msgtype = (String) jsonFields.get(DDPClient.DdpMessageField.MSG);
-        System.out.println(msgtype);
+		if(obs.mCollections.get("channels") != null && channelSize != obs.mCollections.get("channels").size() && obs.mCollections.get("channels").size() > 0){
+			channelSize = obs.mCollections.get("channels").size();
+			for (MyChannelsListener l : myChannelsListeners){
+				l.myChannelsResult(obs.mCollections.get("channels"));
+			}
+		}
+//		System.out.println(msg);
+//		@SuppressWarnings("unchecked")
+//		Map<String, Object> jsonFields = (Map<String, Object>) msg;
+//        String msgtype = (String) jsonFields.get(DDPClient.DdpMessageField.MSG);
+//        System.out.println(msgtype);
 	}
 
 	public void login(String username, String password) throws InterruptedException{
-//		DDPClientObserver mObs = new DDPClientObserver();
         Object[] methodArgs = new Object[1];
         UsernameAuth userpass = new UsernameAuth(username, password);
         methodArgs[0] = userpass;
         
-//        ddp.call("login", methodArgs, new DDPListener(){
-//        	@Override
-//        	public void onResult(Map<String, Object> resultFields) {
-//        		if(resultFields.containsKey("error")){
-//        			@SuppressWarnings("unchecked")
-//					Map<String, Object> error = (Map<String, Object>) resultFields.get(DdpMessageField.ERROR);
-//                    System.err.println("login failure: " + (String) error.get("reason"));
-//        			for (LoginListener l : loginListeners)
-//        	            l.loginResult(false);
-//        		} else {
-//        			for (LoginListener l : loginListeners)
-//        	            l.loginResult(true);
-//        		}
-//        	}
-//        });
-        ddp.call("login", methodArgs, obs);
+        ddp.call("login", methodArgs, new DDPListener(){
+        	@Override
+        	public void onResult(Map<String, Object> resultFields) {
+        		if(resultFields.containsKey("error")){
+        			@SuppressWarnings("unchecked")
+					Map<String, Object> error = (Map<String, Object>) resultFields.get(DdpMessageField.ERROR);
+                    System.err.println("login failure: " + (String) error.get("reason"));
+        			for (LoginListener l : loginListeners)
+        	            l.loginResult(false);
+        		} else {
+        			for (LoginListener l : loginListeners)
+        	            l.loginResult(true);
+        		}
+        	}
+        });
 	}
 	
 	//JSON: Channel Objects
@@ -92,41 +98,7 @@ public class UserHandler implements UpdateListener {
 	//Query
 	//Store entire JSON object to pass back later when toggled
 	public void getMyChannels(){
-//			ddp.subscribe("myChannels", new Object[] {}, new DDPListener(){
-//	        	@Override
-//	        	public void onReady(Map<String, Object> resultFields) {
-//	        		if(resultFields.containsKey("error")){
-//	        			@SuppressWarnings("unchecked")
-//						Map<String, Object> error = (Map<String, Object>) resultFields.get(DdpMessageField.ERROR);
-//	                    System.err.println("myChannels failure: " + (String) error.get("reason"));
-//	                    for (MyChannelsListener l : myChannelsListeners)
-//	        	            l.myChannelsResult(null);
-//	        		} else {
-//	        			for (MyChannelsListener l : myChannelsListeners)
-//	        	            l.myChannelsResult(new JSONObject((Map<String, Object>) resultFields));
-//	        		}
-//	        	}
-//			});
-		
 		ddp.subscribe("myChannels", new Object[] {}, obs);
-//		obs.onUpdated("channelsReady");
-		obs.onReady("asdfasdfasdfasdfasdf");
 	}
 	
-//	public void getLatestChannels(int limit){
-//		Object[] methodArgs = new Object[1];
-//		methodArgs[0] = limit;
-//		ddp.subscribe("latestChannels", methodArgs, new DDPListener(){
-//        	@Override
-//        	public void onResult(Map<String, Object> resultFields) {
-//        		if(resultFields.containsKey("error")){
-//        			@SuppressWarnings("unchecked")
-//					Map<String, Object> error = (Map<String, Object>) resultFields.get(DdpMessageField.ERROR);
-//                    System.err.println("latestChannels failure: " + (String) error.get("reason"));
-//        		} else {
-//        			//send resultFields to background changer
-//        		}
-//        	}
-//        });
-//	}
 }

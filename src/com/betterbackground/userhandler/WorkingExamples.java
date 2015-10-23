@@ -1,6 +1,8 @@
 package com.betterbackground.userhandler;
 
 import java.net.URISyntaxException;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.json.simple.JSONObject;
 
@@ -29,14 +31,21 @@ public class WorkingExamples implements LoginListener, MyChannelsListener{
 	//returns: true/false
 	@Override
 	public void loginResult(boolean result) {
-		System.out.println(result);
+		System.out.println("Logged in: " + result);
 	}
 
-	//returns: jsonObject/null
+	//returns: map/null
 	@Override
-	public void myChannelsResult(JSONObject jsonObject) {
-		//Not currently working on meteor end
-		System.out.println(jsonObject);
+	public void myChannelsResult(Map<String, Object> channelsMap) {
+		for (Entry<String, Object> channel : channelsMap.entrySet()) {
+            @SuppressWarnings("unchecked")
+			Map<String, Object> channelFields =  (Map<String, Object>) channel.getValue();
+			System.out.println("Title:" + channelFields.get("title"));
+			System.out.println("Query:" + channelFields.get("query"));
+			System.out.println("Creator:" + channelFields.get("creator"));
+			System.out.println("Created At:" + channelFields.get("createdAt"));
+			System.out.println("Updated At:" + channelFields.get("updatedAt"));            
+		}
 	}
 	
 }
