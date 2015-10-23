@@ -19,6 +19,7 @@ package com.betterbackground.ddpclient.test;
 import com.betterbackground.ddpclient.DDPClient;
 import com.betterbackground.ddpclient.EmailAuth;
 import com.betterbackground.ddpclient.TokenAuth;
+import com.betterbackground.ddpclient.UsernameAuth;
 import com.betterbackground.ddpclient.test.DDPTestClientObserver.DDPSTATE;
 
 import junit.framework.TestCase;
@@ -139,8 +140,8 @@ public class TestDDPAuth extends TestCase {
         //    resume: resumetoken (no password required)
         //  }]
         Object[] methodArgs = new Object[1];
-        EmailAuth emailpass = new EmailAuth(TestConstants.sMeteorUsername, TestConstants.sMeteorPassword);
-        methodArgs[0] = emailpass;
+        UsernameAuth userpass = new UsernameAuth(TestConstants.sMeteorUsername, TestConstants.sMeteorPassword);
+        methodArgs[0] = userpass;
         int methodId = ddp.call("login", methodArgs, obs);
         assertEquals(1, methodId);  // first ID should be 1
         
