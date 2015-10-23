@@ -1,7 +1,8 @@
+package com.betterbackground.backgroundManager;
+
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-
 
 public class saveImageTest {
 	ImageDownloader id = new ImageDownloader();
