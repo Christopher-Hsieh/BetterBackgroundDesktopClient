@@ -1,5 +1,3 @@
-package com.betterbackground.backgroundManager;
-
 
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +25,8 @@ public class BackgroundManager {
 		System.arraycopy(pics, 0, newURLS, 0, aLen);
 		System.arraycopy(urls, 0, newURLS, aLen, bLen);
 		pics = newURLS;
+		wp.images = pics;
+		wp.run();
 	}
 	
 	public void newChannel(String name, String[] urls){
@@ -37,17 +37,20 @@ public class BackgroundManager {
 	
 	public void startWallpaperCycler(){
 		wp = new WallpaperCycler(pics);
+		wp.getBatch();
+		wp.run();
 	}
 	
 	public BackgroundManager(){
     	/*makes the folder should it not exits/exists with pictures in it*/
 		if (Files.exists(Paths.get(directory))) {
 			new File(directory).delete();
+			System.out.println("It was real");
 		}    
 		boolean success = new File(directory).mkdir();
 		if(success != true){
 			//this failed
-			System.out.println("failed");
+			//System.out.println("failed in making the folder");
 		}else{
 			System.out.println("Created" + directory);
 		}
