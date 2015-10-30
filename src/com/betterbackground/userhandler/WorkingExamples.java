@@ -1,9 +1,13 @@
 package com.betterbackground.userhandler;
 
+import java.awt.List;
 import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.json.*;
+
+import com.betterbackground.ddpclient.DDPClient.DdpMessageField;
 import com.betterbackground.ddpclient.test.TestConstants;
 import com.betterbackground.userhandler.Interfaces.GetUrlsListener;
 import com.betterbackground.userhandler.Interfaces.LoginListener;
@@ -31,7 +35,7 @@ public class WorkingExamples implements LoginListener, MyChannelsListener, GetUr
 		System.out.println("Logged in: " + result);
 	}
 
-	//returns: map
+	//returns: maps
 	@Override
 	public void myChannelsResult(Map<String, Object> channelsMap) {
 		System.out.println(channelsMap);
@@ -49,11 +53,12 @@ public class WorkingExamples implements LoginListener, MyChannelsListener, GetUr
 		}
 	}
 
-	//returns: result=[{width=6637, height=3787, unescapedUrl=https://upload.wikimedia.org/.../galaxy.jpg, url=https://upload.wikimedia.org/.../galaxy.jpg}]
+	//returns: {"xxx1.jpg", "xxx2.jpg", "xxx3.jpg"}
 	@Override
-	public void getUrlsResult(Object result) {
-		//Not implemented
-		System.out.println(result);
-	}
-		
+	public void getUrlsResult(String[] urls) {
+		System.out.print("Urls: ");
+		for(int i = 0; i < urls.length; i++){
+			System.out.print(urls[i] + ", ");
+		}
+	}	
 }
