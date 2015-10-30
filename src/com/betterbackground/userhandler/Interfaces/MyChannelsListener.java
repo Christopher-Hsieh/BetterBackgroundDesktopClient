@@ -1,7 +1,7 @@
 package com.betterbackground.userHandler.Interfaces;
 
-import org.json.simple.JSONObject;
+import java.util.Map;
 
 public interface MyChannelsListener {
-	void myChannelsResult(JSONObject jsonObject);
+	void myChannelsResult(Map<String, Object> channelsMap);
 }

@@ -22,7 +22,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ TestDDPBasic.class, TestDDPConnections.class,
-    TestDDPAuth.class, TestDDPCollections.class, TestDDPUsers.class })
+    TestDDPAuth.class, TestDDPCollections.class })
 public class AllTests {
 
 }
