@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.betterbackground.ddpclient.DDPClient;
 import com.betterbackground.ddpclient.DDPClient.DdpMessageField;
@@ -16,6 +18,7 @@ import com.betterbackground.userhandler.Interfaces.MyChannelsListener;
 import com.betterbackground.userhandler.Interfaces.UpdateListener;
 import com.betterbackground.ddpclient.DDPListener;
 import com.betterbackground.ddpclient.UsernameAuth;
+import com.betterbackground.backgroundManager.BackgroundManager;
 import com.betterbackground.ddpclient.Constants;
 
 
@@ -75,11 +78,6 @@ public class UserHandler implements UpdateListener {
 				l.myChannelsResult(myChannels);
 			}
 		}
-//		System.out.println(msg);
-//		@SuppressWarnings("unchecked")
-//		Map<String, Object> jsonFields = (Map<String, Object>) msg;
-//        String msgtype = (String) jsonFields.get(DDPClient.DdpMessageField.MSG);
-//        System.out.println(msgtype);
 	}
 
 	public void login(String username, String password){
@@ -122,8 +120,16 @@ public class UserHandler implements UpdateListener {
 					Map<String, Object> error = (Map<String, Object>) resultFields.get(DdpMessageField.ERROR);
                     System.err.println("login failure: " + (String) error.get("reason"));
         		} else {
+        			JSONObject jsonObject = new JSONObject(resultFields);
+        			JSONArray resultArray = jsonObject.getJSONArray(DdpMessageField.RESULT);
+        			String[] urls = new String[resultArray.length()];
+        			
+        			for(int i = 0; i < resultArray.length(); i++){
+        				urls[i] = resultArray.getJSONObject(i).getString("unescapedUrl");
+        			}
+        			
         			for (GetUrlsListener l : getUrlsListeners)
-        	            l.getUrlsResult(resultFields.get(DdpMessageField.RESULT));
+        	            l.getUrlsResult(urls);
         		}
         	}
         });
