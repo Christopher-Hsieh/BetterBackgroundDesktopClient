@@ -23,14 +23,19 @@ import com.betterbackground.ddpclient.Constants;
 
 
 public class UserHandler implements UpdateListener {
+	private BackgroundManager backgroundManager;
 	private ArrayList<LoginListener> loginListeners = new ArrayList<LoginListener>();
 	private ArrayList<MyChannelsListener> myChannelsListeners = new ArrayList<MyChannelsListener>();
 	private ArrayList<GetUrlsListener> getUrlsListeners = new ArrayList<GetUrlsListener>();
 	public DDPClient ddp = null;
 	public DDPClientObserver obs = null;
 	public Map<String, Object> myChannels;
+	private boolean cyclerStarted;
 
 	public UserHandler() throws URISyntaxException, InterruptedException{
+		backgroundManager = new BackgroundManager();
+		addGetUrlsListener(backgroundManager);
+		
 		int connectAttempts = 0;
 		myChannels = new HashMap<String, Object>();
 		ddp = new DDPClient(Constants.sMeteorHost, Constants.sMeteorPort);
