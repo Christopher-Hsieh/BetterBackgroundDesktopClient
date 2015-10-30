@@ -16,7 +16,7 @@ public class ImageDownloaderRunTest {
 	@Test
 	public void testRunInt() {
 		ImageDownloader id = new ImageDownloader(temp);
-		id.run(2);
+		id.run(2,temp);
 		System.out.println("HEY THE FINAL IMAGE IS: " + id.finalImage);
 		if((id.finalImage).equals("C:\\Users\\Public\\BetterBackground\\castle-of-rivendell-wallpaper-hd-resolution-desktop-image-rivendell-wallpaper-for-desktop-.jpg")){
 			System.out.println("I'm on a roll");

@@ -20,12 +20,14 @@ public class BackgroundManager {
 	
 	//adds the new wallpapers to the end of the existing wallpapers and then passes it back to the wallpaper cycler which contains a count int
 	public void passURLS(String[] urls){
-		int aLen = pics.length;
-		int bLen = urls.length;
-		String[] newURLS= new String[aLen+bLen];
-		System.arraycopy(pics, 0, newURLS, 0, aLen);
-		System.arraycopy(urls, 0, newURLS, aLen, bLen);
-		pics = newURLS;
+		//int aLen = pics.length;
+		//int bLen = urls.length;
+		//String[] newURLS= new String[aLen+bLen];
+		//System.arraycopy(pics, 0, newURLS, 0, aLen);
+		//System.arraycopy(urls, 0, newURLS, aLen, bLen);
+		//pics = newURLS;
+		wp.images = urls;
+		wp.run();
 	}
 	
 	public void newChannel(String name, String[] urls){
@@ -36,17 +38,20 @@ public class BackgroundManager {
 	
 	public void startWallpaperCycler(){
 		wp = new WallpaperCycler(pics);
+		wp.getBatch();
+		wp.run();
 	}
 	
 	public BackgroundManager(){
     	/*makes the folder should it not exits/exists with pictures in it*/
 		if (Files.exists(Paths.get(directory))) {
 			new File(directory).delete();
+			System.out.println("It was real");
 		}    
 		boolean success = new File(directory).mkdir();
 		if(success != true){
 			//this failed
-			System.out.println("failed");
+			//System.out.println("failed in making the folder");
 		}else{
 			System.out.println("Created" + directory);
 		}
