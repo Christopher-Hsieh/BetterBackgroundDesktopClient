@@ -32,21 +32,31 @@ public class BackgroundManager implements GetUrlsListener {
 	}
 	
 	//adds the new wallpapers to the end of the existing wallpapers and then passes it back to the wallpaper cycler which contains a count int
-	public void passURLS(String[] urls){
+	//public void passURLS(String channelName, String[] urls){
 		//int aLen = pics.length;
 		//int bLen = urls.length;
 		//String[] newURLS= new String[aLen+bLen];
 		//System.arraycopy(pics, 0, newURLS, 0, aLen);
 		//System.arraycopy(urls, 0, newURLS, aLen, bLen);
 		//pics = newURLS;
-		wp.images = urls;
-		wp.run();
-	}
+		//wp.images = urls;
+		//wp.run();
+	//}
 	
 	public void newChannel(String name, String[] urls){
+		int aLen = pics.length;
+		int bLen = urls.length;
+		String[] newURLS= new String[aLen+bLen];
+		System.arraycopy(pics, 0, newURLS, 0, aLen);
+		System.arraycopy(urls, 0, newURLS, aLen, bLen);
+		pics = newURLS;
 		channel = name;
-		pics = urls;
-		count = 0;
+		if(wp.isAlive()){
+			wp.changeURLS(pics);
+		}
+		//pics = urls;
+		//count = 0;
+		//synchronized method
 	}
 	
 	public void startWallpaperCycler(){

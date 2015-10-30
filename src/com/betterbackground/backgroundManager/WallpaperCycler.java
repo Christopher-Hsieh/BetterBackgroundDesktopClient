@@ -32,6 +32,10 @@ public class WallpaperCycler extends Thread{
 		System.out.println("X after initial batch is : " + x);
 	}
 	
+	public synchronized void changeURLS(String[] a ){
+		images = a; 
+	}
+	
 	public void run(){
 		while(!(inFolder.get(0).equals("haha"))){
 			inFolder.remove((inFolder.get(0)));
@@ -45,6 +49,13 @@ public class WallpaperCycler extends Thread{
 			System.out.println("ADD: " + id.finalImage);
 			
 			count++;
+		}
+		if(inFolder.get(0).equals("haha")){
+			inFolder.remove((inFolder.get(0)));
+			System.out.println("REMOVE: " + inFolder.get(0));
+			count = 0;
+			run();
+
 		}
 		//System.out.println("X is : " + x);
 	}

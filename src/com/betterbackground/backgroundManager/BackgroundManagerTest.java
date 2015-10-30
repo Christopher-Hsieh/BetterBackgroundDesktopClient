@@ -14,7 +14,6 @@ public class BackgroundManagerTest {
 	public void test() {
 		bm.newChannel("Galaxies", temp);
 		bm.startWallpaperCycler();
-		bm.passURLS(temp);
 		//fail("Not yet implemented");
 	}
 
