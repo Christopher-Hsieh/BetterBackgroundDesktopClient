@@ -1,3 +1,5 @@
+package com.betterbackground.backgroundManager;
+
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -15,6 +17,8 @@ public class WallpaperCyclerTest {
 		if(wp.x != 2){
 			fail("Not yet implemented");
 		}
+
+System.out.println("poop");
 	}
 
 }
