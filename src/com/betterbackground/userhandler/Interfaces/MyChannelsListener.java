@@ -1,4 +1,4 @@
-package com.betterbackground.userHandler.Interfaces;
+package com.betterbackground.userhandler.Interfaces;
 
 import java.util.Map;
 

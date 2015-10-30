@@ -65,6 +65,10 @@ public class MainUI extends JFrame {
         
 	}
 	
+	public void createChannelListener() {
+		
+	}
+	
 	public MainUI() {
 		super("Better Background Main UI");
 

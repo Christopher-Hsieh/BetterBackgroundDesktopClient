@@ -3,6 +3,7 @@ package com.betterbackground.gui;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,13 +18,12 @@ import org.json.simple.JSONObject;
 
 import java.awt.event.ActionListener;
 import java.net.URISyntaxException;
+import java.util.Map;
 import java.awt.event.ActionEvent;
 
-import com.betterbackground.ddpclient.test.TestConstants;
-import com.betterbackground.userHandler.UserHandler;
-import com.betterbackground.userHandler.WorkingExamples;
-import com.betterbackground.userHandler.Interfaces.LoginListener;
-import com.betterbackground.userHandler.Interfaces.MyChannelsListener;
+import com.betterbackground.userhandler.UserHandler;
+import com.betterbackground.userhandler.Interfaces.LoginListener;
+import com.betterbackground.userhandler.Interfaces.MyChannelsListener;
 
 public class Login extends JFrame implements LoginListener, MyChannelsListener {
 	
@@ -31,8 +31,7 @@ public class Login extends JFrame implements LoginListener, MyChannelsListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	static UserHandler userHandler;
-	
+
 	private JLabel labelUsername = new JLabel("Enter username: ");
 	private JLabel labelPassword = new JLabel("Enter password: ");
 	private JTextField textUsername = new JTextField(20);
@@ -42,10 +41,6 @@ public class Login extends JFrame implements LoginListener, MyChannelsListener {
 	private JLabel status = new JLabel(" ");
 
 	public Login() {
-		
-	}
-	
-	public void setupLoginUI() {
 		//super("Better Background Login");
 
 				// create a new panel w. GridBagLayout
@@ -80,12 +75,7 @@ public class Login extends JFrame implements LoginListener, MyChannelsListener {
 				
 				buttonLogin.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						try {
-							userHandler.login(TestConstants.sMeteorUsername, TestConstants.sMeteorPassword);
-						} catch (InterruptedException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+						Initialize.userhandler.login(textUsername.getText(), fieldPassword.getPassword().toString());
 					}
 				});
 				newPanel.add(buttonLogin, constraints);
@@ -117,22 +107,12 @@ public class Login extends JFrame implements LoginListener, MyChannelsListener {
 			});
 	}
 	
-	public void createLoginListener() throws URISyntaxException, InterruptedException {
-		userHandler = new UserHandler();
-		Login listener = new Login();
-		
-		//Add listeners for class
-		userHandler.addLoginListener(listener);
-		userHandler.addMyChannelsListener(listener);
-		
-//		Thread.sleep(500);
-//		
-//		userHandler.getMyChannels();
+	public void createLoginListener(Login listener, UserHandler userhandler) throws URISyntaxException, InterruptedException {
+		userhandler.addLoginListener(listener);
 	}
 	
 
 	// Does nothing for login. TODO Take out once login listener is done.
-	@Override
 	public void myChannelsResult(JSONObject jsonObject) {
 		// TODO Auto-generated method stub
 	}
@@ -146,5 +126,11 @@ public class Login extends JFrame implements LoginListener, MyChannelsListener {
 		} else {
 			status.setText("Login failed, please try again.");
 		}
+	}
+
+	@Override
+	public void myChannelsResult(Map<String, Object> channelsMap) {
+		// TODO Auto-generated method stub
+		
 	}
 }
