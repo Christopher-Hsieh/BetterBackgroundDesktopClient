@@ -47,7 +47,7 @@ public class BackgroundManager {
 			}
 		}
 		//pics = urls;
-		//count = 0;
+		//count = 0;d
 		//synchronized method
 	}
 	
