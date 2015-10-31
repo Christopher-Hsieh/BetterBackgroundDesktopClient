@@ -39,7 +39,7 @@ public class WallpaperCycler extends Thread{
 	public void run(){
 		while(!(inFolder.get(0).equals("haha"))){
 			inFolder.remove((inFolder.get(0)));
-			//System.out.println("REMOVE: " + inFolder.get(0));
+			System.out.println("REMOVE: " + inFolder.get(0));
 			cycleWallpaper();
 			id.run(count,images);
 			if(id.finalImage.equals("haha")){
@@ -53,9 +53,10 @@ public class WallpaperCycler extends Thread{
 		System.out.println("OUT OF STUFF SO I'M LOOPING");
 		inFolder.remove((inFolder.get(0)));
 		count = 0;
-		id = new ImageDownloader();
-		id.run(count,images);
-		inFolder.add(id.finalImage);
+		//id = new ImageDownloader();
+		//id.run(count,images);
+		//inFolder.add(id.finalImage);
+		getInitialBatch();
 		run();
 		//System.out.println("X is : " + x);
 	}
