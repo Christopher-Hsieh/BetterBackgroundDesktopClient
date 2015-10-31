@@ -10,10 +10,11 @@ public class Initialize {
 	static UserHandler userHandler;
 	static BackgroundManager backgroundManager;
 	
+	static Login login;
 	
 	public static void main(String[] args) throws URISyntaxException, InterruptedException {
 		//Initialize
-		Login login = new Login();
+		login = new Login();
 		userHandler = new UserHandler();
 		backgroundManager = new BackgroundManager();
 		
@@ -32,5 +33,9 @@ public class Initialize {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public static void disposeLogin() {
+		login.dispose();
 	}
 }
