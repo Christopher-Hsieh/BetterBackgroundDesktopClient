@@ -108,6 +108,7 @@ public class MainUI extends JFrame implements MyChannelsListener {
 		panel.add(channelBtn, constraints);
 		
 		panel.revalidate();
+		validate();
 		panel.repaint();
 		
 	}
@@ -121,13 +122,13 @@ public class MainUI extends JFrame implements MyChannelsListener {
 		super("Better Background Main UI");
 
 		// Set up the system tray
-		setupSystemTray();
+		//setupSystemTray();
 		
 		// create a new panel w. GridBagLayout
 		panel = new JPanel(new GridBagLayout());
 
 		constraints = new GridBagConstraints();
-		
+		constraints.gridwidth = 2;
 		constraints.anchor = GridBagConstraints.WEST;
 		constraints.insets = new Insets(10, 10, 10, 10);
 		
