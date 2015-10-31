@@ -163,8 +163,6 @@ public class MainUI extends JFrame implements MyChannelsListener {
 
 	}
 
-
-	
 	@Override
 	public void myChannelsResult(Map<String, Object> channelsMap) {
 		// Clear out the list to enter the new ones
