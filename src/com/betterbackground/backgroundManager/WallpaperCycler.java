@@ -1,3 +1,4 @@
+package com.betterbackground.backgroundManager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,10 +32,14 @@ public class WallpaperCycler extends Thread{
 		System.out.println("X after initial batch is : " + x);
 	}
 	
+	public synchronized void changeURLS(String[] a ){
+		images = a; 
+	}
+	
 	public void run(){
 		while(!(inFolder.get(0).equals("haha"))){
 			inFolder.remove((inFolder.get(0)));
-			System.out.println("REMOVE: " + inFolder.get(0));
+			//System.out.println("REMOVE: " + inFolder.get(0));
 			cycleWallpaper();
 			id.run(count,images);
 			if(id.finalImage.equals("haha")){
@@ -45,6 +50,13 @@ public class WallpaperCycler extends Thread{
 			
 			count++;
 		}
+		System.out.println("OUT OF STUFF SO I'M LOOPING");
+		inFolder.remove((inFolder.get(0)));
+		count = 0;
+		id = new ImageDownloader();
+		id.run(count,images);
+		inFolder.add(id.finalImage);
+		run();
 		//System.out.println("X is : " + x);
 	}
 	

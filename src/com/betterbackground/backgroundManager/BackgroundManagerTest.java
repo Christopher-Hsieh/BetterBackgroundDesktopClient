@@ -1,3 +1,4 @@
+package com.betterbackground.backgroundManager;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -13,7 +14,6 @@ public class BackgroundManagerTest {
 	public void test() {
 		bm.newChannel("Galaxies", temp);
 		bm.startWallpaperCycler();
-		bm.passURLS(temp);
 		//fail("Not yet implemented");
 	}
 
