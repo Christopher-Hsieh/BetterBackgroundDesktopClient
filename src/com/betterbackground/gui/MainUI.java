@@ -21,6 +21,7 @@ import com.betterbackground.userhandler.Interfaces.MyChannelsListener;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -122,7 +123,7 @@ public class MainUI extends JFrame implements MyChannelsListener {
 		super("Better Background Main UI");
 
 		// Set up the system tray
-		//setupSystemTray();
+		setupSystemTray();
 		
 		// create a new panel w. GridBagLayout
 		panel = new JPanel(new GridBagLayout());
@@ -159,7 +160,6 @@ public class MainUI extends JFrame implements MyChannelsListener {
 
 		tglbtn1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				// Channel Button is toggled ON
 				if (tglbtn1.isSelected()) {
 					for (Entry<String, Object> channel : channels.entrySet()) {
@@ -208,10 +208,11 @@ public class MainUI extends JFrame implements MyChannelsListener {
 			}
 		});
 		pack();
-		setLocationRelativeTo(null);;
+		setLocationRelativeTo(null);
 	}
 
 	public void createMainUI() {
+		
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception ex) {
@@ -259,11 +260,10 @@ public class MainUI extends JFrame implements MyChannelsListener {
 		currentChannels.clear();
 		
 		channels = channelsMap;
-				
+		
 		for (Entry<String, Object> channel : channelsMap.entrySet()) {
             @SuppressWarnings("unchecked")
 			Map<String, Object> channelFields =  (Map<String, Object>) channel.getValue();
-			//addToggleBtn(channelFields.get("title").toString());  
             setChannelBtns(channelFields.get("title").toString());
 			currentChannels.add(channelFields);
 		}
