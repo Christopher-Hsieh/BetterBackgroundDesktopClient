@@ -32,20 +32,32 @@ public class WallpaperCycler extends Thread{
 		System.out.println("X after initial batch is : " + x);
 	}
 	
+	public synchronized void changeURLS(String[] a ){
+		images = a; 
+	}
+	
 	public void run(){
 		while(!(inFolder.get(0).equals("haha"))){
 			inFolder.remove((inFolder.get(0)));
-			System.out.println("REMOVE: " + inFolder.get(0));
+			//System.out.println("REMOVE: " + inFolder.get(0));
 			cycleWallpaper();
 			id.run(count,images);
 			if(id.finalImage.equals("haha")){
 				break;
 			}
 			inFolder.add(id.finalImage);
-			System.out.println("ADD: " + id.finalImage);
+			//System.out.println("ADD: " + id.finalImage);
 			
 			count++;
 		}
+		//System.out.println("OUT OF STUFF SO I'M LOOPING");
+		inFolder.remove((inFolder.get(0)));
+		count = 0;
+		//id = new ImageDownloader();
+		//id.run(count,images);
+		//inFolder.add(id.finalImage);
+		getInitialBatch();
+		run();
 		//System.out.println("X is : " + x);
 	}
 	
@@ -66,8 +78,8 @@ public class WallpaperCycler extends Thread{
     public int cycleWallpaper(){
 
     	 String path = "";
-    	 System.out.println("NEXT: " + inFolder.get(0));
-		 System.out.println("CYCLE");
+    	 //System.out.println("NEXT: " + inFolder.get(0));
+		 //System.out.println("CYCLE");
     	 path = inFolder.get(0);
 	      SPI.INSTANCE.SystemParametersInfo(
 	              new UINT_PTR(SPI.SPI_SETDESKWALLPAPER), 

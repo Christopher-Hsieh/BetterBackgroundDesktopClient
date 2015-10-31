@@ -53,15 +53,15 @@ public class ImageDownloader extends Thread {
 	  		System.out.println("ITS NULL");
 	  		finalImage = "haha";
 	  		locals.add("haha");
-	  	}else if(saveImage(temp).equals("BadURL") || saveImage(temp).equals("ConnectionException") || saveImage(temp).equals("ImageNull") || 
-	  			saveImage(temp).equals("WrongFormat") || saveImage(temp).equals("IOException")){
+	  	}else if(temp.equals("BadURL") || temp.equals("ConnectionException") || temp.equals("ImageNull") || 
+	  			temp.equals("WrongFormat") || temp.equals("IOException")){
 	  		fails++;
 	  	}
 	  	else{
-	  	}
 		  finalImage = saveImage(temp);
 		  locals.add(finalImage);
 		  passes++; 
+	  	}
 		 // if(count > 3){
 		//	   removeImage = destroyImage();
 		//	   locals.remove(0);
