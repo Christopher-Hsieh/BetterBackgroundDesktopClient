@@ -75,7 +75,8 @@ public class Login extends JFrame implements LoginListener {
 				
 				buttonLogin.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						Initialize.userhandler.login(textUsername.getText(), fieldPassword.getPassword().toString());
+						String password = new String(fieldPassword.getPassword());
+						Initialize.userhandler.login(textUsername.getText(), password);
 					}
 				});
 				newPanel.add(buttonLogin, constraints);
