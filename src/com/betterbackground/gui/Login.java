@@ -43,7 +43,6 @@ public class Login extends JFrame implements LoginListener {
 	public Login() {
 		//super("Better Background Login");
 
-<<<<<<< HEAD
 		// create a new panel w. GridBagLayout
 		JPanel newPanel = new JPanel(new GridBagLayout());
 
@@ -76,7 +75,8 @@ public class Login extends JFrame implements LoginListener {
 
 		buttonLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Initialize.userHandler.login(textUsername.getText(), fieldPassword.getPassword().toString());
+				String password = new String(fieldPassword.getPassword());
+				Initialize.userHandler.login(textUsername.getText(), password);
 			}
 		});
 		newPanel.add(buttonLogin, constraints);
@@ -90,57 +90,6 @@ public class Login extends JFrame implements LoginListener {
 
 		pack();
 		setLocationRelativeTo(null);;
-
-=======
-				// create a new panel w. GridBagLayout
-				JPanel newPanel = new JPanel(new GridBagLayout());
-
-				GridBagConstraints constraints = new GridBagConstraints();
-				constraints.anchor = GridBagConstraints.WEST;
-				constraints.insets = new Insets(10, 10, 10, 10);
-
-				// add components 
-				constraints.gridx = 0;
-				constraints.gridy = 0;
-				newPanel.add(labelUsername, constraints);
-
-				constraints.gridx = 1;
-				newPanel.add(textUsername, constraints);
-
-				constraints.gridx = 0;
-				constraints.gridy = 1;
-				newPanel.add(labelPassword, constraints);
-
-				constraints.gridx = 1;
-				newPanel.add(fieldPassword, constraints);
-			
-				constraints.gridx = 2;
-				newPanel.add(status, constraints);
-				
-				constraints.gridx = 0;
-				constraints.gridy = 2;
-				constraints.gridwidth = 2;
-				constraints.anchor = GridBagConstraints.CENTER;
-				
-				buttonLogin.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						String password = new String(fieldPassword.getPassword());
-						Initialize.userhandler.login(textUsername.getText(), password);
-					}
-				});
-				newPanel.add(buttonLogin, constraints);
-
-				// set border 
-				newPanel.setBorder(BorderFactory.createTitledBorder(
-						BorderFactory.createEtchedBorder(), "Login Panel"));
-
-				// add the panel 
-				getContentPane().add(newPanel);
-
-				pack();
-				setLocationRelativeTo(null);;
-				
->>>>>>> refs/remotes/origin/guiwork
 	}
 
 	public void createLoginUI() {
