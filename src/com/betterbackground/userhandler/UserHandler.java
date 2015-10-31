@@ -30,12 +30,8 @@ public class UserHandler implements UpdateListener {
 	public DDPClient ddp = null;
 	public DDPClientObserver obs = null;
 	public Map<String, Object> myChannels;
-	private boolean cyclerStarted;
 
 	public UserHandler() throws URISyntaxException, InterruptedException{
-		backgroundManager = new BackgroundManager();
-		addGetUrlsListener(backgroundManager);
-		
 		int connectAttempts = 0;
 		myChannels = new HashMap<String, Object>();
 		ddp = new DDPClient(Constants.sMeteorHost, Constants.sMeteorPort);

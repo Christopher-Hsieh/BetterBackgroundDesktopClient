@@ -70,7 +70,7 @@ public class MainUI extends JFrame implements MyChannelsListener {
 	}
 	
 	public void createChannelListener() {
-		Initialize.userhandler.addMyChannelsListener(Login.mainUI);
+		Initialize.userHandler.addMyChannelsListener(Login.mainUI);
 	}
 	
 	public void addToggleBtn(String channelName) {
@@ -90,7 +90,7 @@ public class MainUI extends JFrame implements MyChannelsListener {
 						@SuppressWarnings("unchecked")
 						Map<String, Object> channelFields =  (Map<String, Object>) channel.getValue();
 						if (channelBtn.getText() == channelFields.get("title").toString()) {
-							Initialize.userhandler.getChannelUrls(channel.getKey());
+							Initialize.userHandler.getChannelUrls(channel.getKey());
 						}
 					}
 				}

@@ -2,25 +2,30 @@ package com.betterbackground.gui;
 
 import java.net.URISyntaxException;
 
+import com.betterbackground.backgroundManager.BackgroundManager;
 import com.betterbackground.userhandler.UserHandler;
 
 public class Initialize {
 	
-	static UserHandler userhandler;
+	static UserHandler userHandler;
+	static BackgroundManager backgroundManager;
 	
 	
 	public static void main(String[] args) throws URISyntaxException, InterruptedException {
-		// Setup UI
+		//Initialize
 		Login login = new Login();
+		userHandler = new UserHandler();
+		backgroundManager = new BackgroundManager();
 		
-		userhandler = new UserHandler();
+		//Add listeners
+		userHandler.addGetUrlsListener(backgroundManager);
 		
 		// Actually Create the UI
 		login.createLoginUI();
 		
 		// Create listener to check credentials for Login
 		try {
-			login.createLoginListener(login, userhandler);
+			login.createLoginListener(login, userHandler);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
