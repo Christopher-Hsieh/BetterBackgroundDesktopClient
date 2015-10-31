@@ -74,9 +74,9 @@ public class MainUI extends JFrame implements MyChannelsListener {
 	}
 	
 	public void addToggleBtn(String channelName) {
-		if (x == 2) {
-			y++;
-			x = 0;
+		if (column == 2) {
+			row++;
+			column = 0;
 		}
 		
 		JToggleButton channelBtn = new JToggleButton(channelName);
@@ -102,16 +102,16 @@ public class MainUI extends JFrame implements MyChannelsListener {
 			}
 		});
 		
-		constraints.gridx = x;
-		constraints.gridy = y;
+		constraints.gridx = column++;
+		constraints.gridy = row;
 		panel.add(channelBtn, constraints);
 		
 	}
 	
 	JPanel panel;
 	GridBagConstraints constraints; 
-	int x;
-	int y;
+	int column;
+	int row;
 	
 	public MainUI() {
 		super("Better Background Main UI");
@@ -127,8 +127,8 @@ public class MainUI extends JFrame implements MyChannelsListener {
 		constraints.anchor = GridBagConstraints.WEST;
 		constraints.insets = new Insets(10, 10, 10, 10);
 		
-		x = 0;
-		y = 0;
+		column = 0;
+		row = 0;
 	
 		// set border 
 		panel.setBorder(BorderFactory.createTitledBorder(
