@@ -91,6 +91,7 @@ public class MainUI extends JFrame implements MyChannelsListener {
 						Map<String, Object> channelFields =  (Map<String, Object>) channel.getValue();
 						if (channelBtn.getText() == channelFields.get("title").toString()) {
 							Initialize.userHandler.getChannelUrls(channel.getKey());
+							break;
 						}
 					}
 				}
@@ -105,6 +106,9 @@ public class MainUI extends JFrame implements MyChannelsListener {
 		constraints.gridx = column++;
 		constraints.gridy = row;
 		panel.add(channelBtn, constraints);
+		
+		panel.revalidate();
+		panel.repaint();
 		
 	}
 	
