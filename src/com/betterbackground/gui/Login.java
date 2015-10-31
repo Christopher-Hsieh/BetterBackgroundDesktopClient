@@ -25,7 +25,7 @@ import com.betterbackground.userhandler.UserHandler;
 import com.betterbackground.userhandler.Interfaces.LoginListener;
 import com.betterbackground.userhandler.Interfaces.MyChannelsListener;
 
-public class Login extends JFrame implements LoginListener, MyChannelsListener {
+public class Login extends JFrame implements LoginListener {
 	
 	/**
 	 * 
@@ -117,20 +117,17 @@ public class Login extends JFrame implements LoginListener, MyChannelsListener {
 		// TODO Auto-generated method stub
 	}
 
+	static MainUI mainUI;
+	
 	// Login result is returned. Handle the case accordingly
 	@Override
 	public void loginResult(boolean result) {
 		if(result) {
 			dispose();
-			MainUI.createMainUI();
+			mainUI = new MainUI();
+			mainUI.createMainUI();
 		} else {
 			status.setText("Login failed, please try again.");
 		}
-	}
-
-	@Override
-	public void myChannelsResult(Map<String, Object> channelsMap) {
-		// TODO Auto-generated method stub
-		
 	}
 }

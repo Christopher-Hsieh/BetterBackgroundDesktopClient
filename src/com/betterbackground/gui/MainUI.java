@@ -11,30 +11,34 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JToggleButton;
 import javax.swing.UIManager;
+
+import com.betterbackground.userhandler.Interfaces.MyChannelsListener;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Map.Entry;
 
 
-public class MainUI extends JFrame {
+public class MainUI extends JFrame implements MyChannelsListener {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	
-	private JButton buttonChannel1 = new JButton("Channel 1");
-	private JButton buttonChannel2 = new JButton("Channel 2");
-	private JButton buttonChannel3 = new JButton("Channel 3");
+
 
 	SystemTray tray;
 	private java.awt.Image img;
 	TrayIcon trayIcon;
 	private static PopupMenu menu;
+	
+	// List of current channels we display.
+	ArrayList<Map<String, Object>> currentChannels = new ArrayList<>();
+	
+	Map<String, Object> channels;
 	
 	public void setupSystemTray() {
 		if(SystemTray.isSupported()){
@@ -66,46 +70,78 @@ public class MainUI extends JFrame {
 	}
 	
 	public void createChannelListener() {
+		Initialize.userhandler.addMyChannelsListener(Login.mainUI);
+	}
+	
+	public void addToggleBtn(String channelName) {
+		if (x == 2) {
+			y++;
+			x = 0;
+		}
+		
+		JToggleButton channelBtn = new JToggleButton(channelName);
+		
+		channelBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				// Channel Button is toggled ON
+				if (channelBtn.isSelected()) {
+					for (Entry<String, Object> channel : channels.entrySet()) {
+						@SuppressWarnings("unchecked")
+						Map<String, Object> channelFields =  (Map<String, Object>) channel.getValue();
+						if (channelBtn.getText() == channelFields.get("title").toString()) {
+							Initialize.userhandler.getChannelUrls(channel.getKey());
+						}
+					}
+				}
+				
+				// Else the Channel Button is toggled OFF
+				else {
+					
+				}
+			}
+		});
+		
+		constraints.gridx = x;
+		constraints.gridy = y;
+		panel.add(channelBtn, constraints);
 		
 	}
+	
+	JPanel panel;
+	GridBagConstraints constraints; 
+	int x;
+	int y;
 	
 	public MainUI() {
 		super("Better Background Main UI");
 
 		// Set up the system tray
 		setupSystemTray();
-
 		
 		// create a new panel w. GridBagLayout
-		JPanel newPanel = new JPanel(new GridBagLayout());
+		panel = new JPanel(new GridBagLayout());
 
-		GridBagConstraints constraints = new GridBagConstraints();
+		constraints = new GridBagConstraints();
+		
 		constraints.anchor = GridBagConstraints.WEST;
 		constraints.insets = new Insets(10, 10, 10, 10);
+		
+		x = 0;
+		y = 0;
 	
-		constraints.gridx = 0;
-		constraints.gridy = 0;
-		newPanel.add(buttonChannel1, constraints);
-
-		constraints.gridx = 1;
-		newPanel.add(buttonChannel2, constraints);
-
-		constraints.gridx = 2;
-		newPanel.add(buttonChannel3, constraints);
-	
-
 		// set border 
-		newPanel.setBorder(BorderFactory.createTitledBorder(
+		panel.setBorder(BorderFactory.createTitledBorder(
 				BorderFactory.createEtchedBorder(), "Channel Selection Menu"));
 
 		// add the panel 
-		getContentPane().add(newPanel);
+		getContentPane().add(panel);
 
 		pack();
 		setLocationRelativeTo(null);;
 	}
 
-	public static void createMainUI() {
+	public void createMainUI() {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception ex) {
@@ -125,5 +161,23 @@ public class MainUI extends JFrame {
         });
         menu.add(item2);
 
+	}
+
+
+	
+	@Override
+	public void myChannelsResult(Map<String, Object> channelsMap) {
+		// Clear out the list to enter the new ones
+		currentChannels.clear();
+		
+		channels = channelsMap;
+				
+		for (Entry<String, Object> channel : channelsMap.entrySet()) {
+            @SuppressWarnings("unchecked")
+			Map<String, Object> channelFields =  (Map<String, Object>) channel.getValue();
+			addToggleBtn(channelFields.get("title").toString());  
+			currentChannels.add(channelFields);
+		}
+		
 	}
 }
