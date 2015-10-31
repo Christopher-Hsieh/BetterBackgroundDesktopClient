@@ -126,6 +126,7 @@ public class Login extends JFrame implements LoginListener {
 			dispose();
 			mainUI = new MainUI();
 			mainUI.createMainUI();
+			Initialize.userHandler.addMyChannelsListener(mainUI);
 		} else {
 			status.setText("Login failed, please try again.");
 		}
