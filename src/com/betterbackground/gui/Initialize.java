@@ -39,7 +39,7 @@ public class Initialize {
 		login.dispose();
 		login.setVisible(false);
 		MainUI mainUI = new MainUI();
-		mainUI.createMainUI();
+		mainUI.createMainUI(mainUI);
 		mainUI.setVisible(true);
 		try {
 			mainUI.addMyChannelsListener(mainUI, userHandler);

@@ -23,6 +23,7 @@ import com.betterbackground.userhandler.Interfaces.MyChannelsListener;
 import java.awt.event.ActionListener;
 import java.net.URISyntaxException;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -37,7 +38,17 @@ public class MainUI extends JFrame implements MyChannelsListener {
 	TrayIcon trayIcon;
 	private static PopupMenu menu;
 	
-	Map<String, Object> channels;
+	ArrayList<ToggableChannels> toggableChannelsList = new ArrayList<>();
+	
+	public class ToggableChannels {
+		String title;
+		String id;
+		
+		ToggableChannels(String title, String id) {
+			this.title = title;
+			this.id = id;
+		}
+	}
 	
 	public void setupSystemTray() {
 		if(SystemTray.isSupported()){
@@ -82,23 +93,7 @@ public class MainUI extends JFrame implements MyChannelsListener {
 		
 		channelBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				// Channel Button is toggled ON
-				if (channelBtn.isSelected()) {
-					for (Entry<String, Object> channel : channels.entrySet()) {
-						@SuppressWarnings("unchecked")
-						Map<String, Object> channelFields =  (Map<String, Object>) channel.getValue();
-						if (channelBtn.getText() == channelFields.get("title").toString()) {
-							Initialize.getUrls(channel.getKey());
-							break;
-						}
-					}
-				}
-				
-				// Else the Channel Button is toggled OFF
-				else {
-					
-				}
+				sendToggableURL(channelBtn);
 			}
 		});
 		
@@ -158,66 +153,40 @@ public class MainUI extends JFrame implements MyChannelsListener {
 
 		tglbtn1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				// Channel Button is toggled ON
-				if (tglbtn1.isSelected()) {
-					for (Entry<String, Object> channel : channels.entrySet()) {
-						@SuppressWarnings("unchecked")
-						Map<String, Object> channelFields =  (Map<String, Object>) channel.getValue();
-						if (tglbtn1.getText() == channelFields.get("title").toString()) {
-							Initialize.getUrls(channel.getKey());
-							break;
-						}
-					}
-				}
-			}
-		});
+				sendToggableURL(tglbtn1);}
+			});
 		
 		tglbtn2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				// Channel Button is toggled ON
-				if (tglbtn2.isSelected()) {
-					for (Entry<String, Object> channel : channels.entrySet()) {
-						@SuppressWarnings("unchecked")
-						Map<String, Object> channelFields =  (Map<String, Object>) channel.getValue();
-						if (tglbtn2.getText() == channelFields.get("title").toString()) {
-							Initialize.getUrls(channel.getKey());
-							break;
-						}
-					}
-				}
+				sendToggableURL(tglbtn2);
 			}
 		});
 		
 		tglbtn3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				// Channel Button is toggled ON
-				if (tglbtn3.isSelected()) {
-					for (Entry<String, Object> channel : channels.entrySet()) {
-						@SuppressWarnings("unchecked")
-						Map<String, Object> channelFields =  (Map<String, Object>) channel.getValue();
-						if (tglbtn3.getText() == channelFields.get("title").toString()) {
-							Initialize.getUrls(channel.getKey());
-							break;
-						}
-					}
-				}
+				sendToggableURL(tglbtn3);
 			}
 		});
 		pack();
 		setLocationRelativeTo(null);;
 	}
+	
+	public void sendToggableURL(JToggleButton jtglbtn) {
+		for (int i = 0; i < toggableChannelsList.size(); i++) {
+			if (jtglbtn.getText() == toggableChannelsList.get(i).title) {
+				Initialize.getUrls(toggableChannelsList.get(i).id);
+				break;
+			}
+		}
+	}
 
-	public void createMainUI() {
+	public void createMainUI(MainUI mainUI) {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 		
-		MainUI mainUI = new MainUI();
 		mainUI.setVisible(true);
 		mainUI.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		
@@ -238,6 +207,7 @@ public class MainUI extends JFrame implements MyChannelsListener {
 	private final JToggleButton tglbtn3 = new JToggleButton("New toggle button");
 	
 	public void setChannelBtns(String channel) {
+		System.out.println("Changing text of button to " + channel);
 		if (button == 1) {
 			tglbtn1.setText(channel);
 			button++;
@@ -254,13 +224,15 @@ public class MainUI extends JFrame implements MyChannelsListener {
 
 	@Override
 	public void myChannelsResult(Map<String, Object> channelsMap) {
-		System.out.println("Got the channelsMap!");
-		channels.putAll(channelsMap); 
-				
+		System.out.println(channelsMap);
+		//channels.putAll(channelsMap); 
 		for (Entry<String, Object> channel : channelsMap.entrySet()) {
+			System.out.println("In here");
             @SuppressWarnings("unchecked")
 			Map<String, Object> channelFields =  (Map<String, Object>) channel.getValue();
 			//addToggleBtn(channelFields.get("title").toString());
+            ToggableChannels tc = new ToggableChannels(channelFields.get("title").toString(), channel.getKey());
+            toggableChannelsList.add(tc);
            
             setChannelBtns(channelFields.get("title").toString());
 		}
