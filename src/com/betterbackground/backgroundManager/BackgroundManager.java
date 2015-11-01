@@ -6,17 +6,30 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import com.betterbackground.userhandler.Interfaces.GetUrlsListener;
 import com.sun.jna.Native;
 import com.sun.jna.platform.FileUtils;
 import com.sun.jna.platform.win32.WinDef.UINT_PTR;
 import com.sun.jna.win32.*;
 
-public class BackgroundManager {
+public class BackgroundManager implements GetUrlsListener {
 	String channel;
 	String [] pics;
 	int count = 0;
 	WallpaperCycler wp;
 	String directory = "C:\\Users\\Public\\BetterBackground";
+	
+	@Override
+	public void getUrlsResult(String[] urls) {
+		//ArrayList<String> pics
+		//pics.add(urls);
+		pics = urls;
+		
+		wp = new WallpaperCycler(pics);
+		wp.getBatch();
+		wp.run();
+	}
 	
 	//adds the new wallpapers to the end of the existing wallpapers and then passes it back to the wallpaper cycler which contains a count int
 	public void passURLS(String[] urls){
@@ -55,6 +68,5 @@ public class BackgroundManager {
 		}else{
 			System.out.println("Created" + directory);
 		}
-	}
-	
+	}	
 }

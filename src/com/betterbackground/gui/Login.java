@@ -26,7 +26,7 @@ import com.betterbackground.userhandler.Interfaces.LoginListener;
 import com.betterbackground.userhandler.Interfaces.MyChannelsListener;
 
 public class Login extends JFrame implements LoginListener {
-	
+
 	/**
 	 * 
 	 */
@@ -37,61 +37,61 @@ public class Login extends JFrame implements LoginListener {
 	private JTextField textUsername = new JTextField(20);
 	private JPasswordField fieldPassword = new JPasswordField(20);
 	public JButton buttonLogin = new JButton("Login");
-	
+
 	private JLabel status = new JLabel(" ");
 
 	public Login() {
 		//super("Better Background Login");
 
-				// create a new panel w. GridBagLayout
-				JPanel newPanel = new JPanel(new GridBagLayout());
+		// create a new panel w. GridBagLayout
+		JPanel newPanel = new JPanel(new GridBagLayout());
 
-				GridBagConstraints constraints = new GridBagConstraints();
-				constraints.anchor = GridBagConstraints.WEST;
-				constraints.insets = new Insets(10, 10, 10, 10);
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.anchor = GridBagConstraints.WEST;
+		constraints.insets = new Insets(10, 10, 10, 10);
 
-				// add components 
-				constraints.gridx = 0;
-				constraints.gridy = 0;
-				newPanel.add(labelUsername, constraints);
+		// add components 
+		constraints.gridx = 0;
+		constraints.gridy = 0;
+		newPanel.add(labelUsername, constraints);
 
-				constraints.gridx = 1;
-				newPanel.add(textUsername, constraints);
+		constraints.gridx = 1;
+		newPanel.add(textUsername, constraints);
 
-				constraints.gridx = 0;
-				constraints.gridy = 1;
-				newPanel.add(labelPassword, constraints);
+		constraints.gridx = 0;
+		constraints.gridy = 1;
+		newPanel.add(labelPassword, constraints);
 
-				constraints.gridx = 1;
-				newPanel.add(fieldPassword, constraints);
-			
-				constraints.gridx = 2;
-				newPanel.add(status, constraints);
-				
-				constraints.gridx = 0;
-				constraints.gridy = 2;
-				constraints.gridwidth = 2;
-				constraints.anchor = GridBagConstraints.CENTER;
-				
-				buttonLogin.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						Initialize.userhandler.login(textUsername.getText(), fieldPassword.getPassword().toString());
-					}
-				});
-				newPanel.add(buttonLogin, constraints);
+		constraints.gridx = 1;
+		newPanel.add(fieldPassword, constraints);
 
-				// set border 
-				newPanel.setBorder(BorderFactory.createTitledBorder(
-						BorderFactory.createEtchedBorder(), "Login Panel"));
+		constraints.gridx = 2;
+		newPanel.add(status, constraints);
 
-				// add the panel 
-				getContentPane().add(newPanel);
+		constraints.gridx = 0;
+		constraints.gridy = 2;
+		constraints.gridwidth = 2;
+		constraints.anchor = GridBagConstraints.CENTER;
 
-				pack();
-				setLocationRelativeTo(null);;
-				
+		buttonLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String password = new String(fieldPassword.getPassword());
+				Initialize.userHandler.login(textUsername.getText(), password);
+			}
+		});
+		newPanel.add(buttonLogin, constraints);
+
+		// set border 
+		newPanel.setBorder(BorderFactory.createTitledBorder(
+				BorderFactory.createEtchedBorder(), "Login Panel"));
+
+		// add the panel 
+		getContentPane().add(newPanel);
+
+		pack();
+		setLocationRelativeTo(null);;
 	}
-	
+
 	public void createLoginUI() {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -103,14 +103,14 @@ public class Login extends JFrame implements LoginListener {
 			@Override
 			public void run() {
 				new Login().setVisible(true);
-				}
-			});
+			}
+		});
 	}
-	
+
 	public void createLoginListener(Login listener, UserHandler userhandler) throws URISyntaxException, InterruptedException {
 		userhandler.addLoginListener(listener);
 	}
-	
+
 
 	// Does nothing for login. TODO Take out once login listener is done.
 	public void myChannelsResult(JSONObject jsonObject) {
@@ -118,14 +118,12 @@ public class Login extends JFrame implements LoginListener {
 	}
 
 	static MainUI mainUI;
-	
+
 	// Login result is returned. Handle the case accordingly
 	@Override
 	public void loginResult(boolean result) {
 		if(result) {
-			dispose();
-			mainUI = new MainUI();
-			mainUI.createMainUI();
+			Initialize.createMainUI();
 		} else {
 			status.setText("Login failed, please try again.");
 		}

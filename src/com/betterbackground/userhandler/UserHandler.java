@@ -18,7 +18,6 @@ import com.betterbackground.userhandler.Interfaces.MyChannelsListener;
 import com.betterbackground.userhandler.Interfaces.UpdateListener;
 import com.betterbackground.ddpclient.DDPListener;
 import com.betterbackground.ddpclient.UsernameAuth;
-import com.betterbackground.backgroundManager.BackgroundManager;
 import com.betterbackground.ddpclient.Constants;
 
 
@@ -73,9 +72,12 @@ public class UserHandler implements UpdateListener {
 	public void observerUpdated(Object msg) {
 		//check if channels collection changes. If so then notify listeners.
 		if(obs.mCollections.containsKey("channels") && !myChannels.equals(obs.mCollections.get("channels"))){
-			myChannels = obs.mCollections.get("channels");
+			//get new channels added
+			Map<String, Object> recentlyAdded = getDifference(myChannels, obs.mCollections.get("channels"));
+			//update current channels
+			myChannels = new HashMap<String, Object>(obs.mCollections.get("channels"));
 			for (MyChannelsListener l : myChannelsListeners){
-				l.myChannelsResult(myChannels);
+				l.myChannelsResult(recentlyAdded);
 			}
 		}
 	}
@@ -135,4 +137,14 @@ public class UserHandler implements UpdateListener {
         });
 	}
 	
+	Map<String, Object> getDifference(Map<String, Object> oldMap, Map<String, Object> newMap){
+		Map<String, Object> diffMap = new HashMap<String, Object>();
+		
+		diffMap.putAll(oldMap);
+		diffMap.putAll(newMap);
+		
+		diffMap.entrySet().removeAll(oldMap.entrySet());
+
+		return diffMap;
+	}
 }

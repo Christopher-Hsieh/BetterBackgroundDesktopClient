@@ -16,18 +16,18 @@ import com.betterbackground.userhandler.Interfaces.MyChannelsListener;
 public class WorkingExamples implements LoginListener, MyChannelsListener, GetUrlsListener{
 	static UserHandler userHandler;
 	
-	public static void main(String[] args) throws InterruptedException, URISyntaxException{
-		userHandler = new UserHandler();
-		WorkingExamples m = new WorkingExamples();
-		
-		//Add listeners for class
-		userHandler.addLoginListener(m);
-		userHandler.addMyChannelsListener(m);
-		userHandler.addGetUrlsListener(m);
-		
-		userHandler.login(TestConstants.sMeteorUsername, TestConstants.sMeteorPassword);
-		//subMyChannels is chained to login success in UserHandler
-	}
+//	public static void main(String[] args) throws InterruptedException, URISyntaxException{
+//		userHandler = new UserHandler();
+//		WorkingExamples m = new WorkingExamples();
+//		
+//		//Add listeners for class
+//		userHandler.addLoginListener(m);
+//		userHandler.addMyChannelsListener(m);
+//		userHandler.addGetUrlsListener(m);
+//		
+//		userHandler.login(TestConstants.sMeteorUsername, TestConstants.sMeteorPassword);
+//		//subMyChannels is chained to login success in UserHandler
+//	}
 	
 	//returns: true/false
 	@Override
