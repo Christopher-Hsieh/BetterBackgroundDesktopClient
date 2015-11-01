@@ -123,8 +123,7 @@ public class Login extends JFrame implements LoginListener {
 	@Override
 	public void loginResult(boolean result) {
 		if(result) {
-			mainUI = new MainUI();
-			mainUI.createMainUI();
+			Initialize.createMainUI();
 		} else {
 			status.setText("Login failed, please try again.");
 		}

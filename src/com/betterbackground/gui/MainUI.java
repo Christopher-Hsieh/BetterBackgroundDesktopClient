@@ -121,7 +121,7 @@ public class MainUI extends JFrame implements MyChannelsListener {
 		super("Better Background Main UI");
 
 		// Set up the system tray
-		//setupSystemTray();
+		setupSystemTray();
 		
 		// create a new panel w. GridBagLayout
 		panel = new JPanel(new GridBagLayout());
