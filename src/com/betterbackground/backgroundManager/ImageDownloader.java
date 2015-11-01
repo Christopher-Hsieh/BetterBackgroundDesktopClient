@@ -26,49 +26,51 @@ public class ImageDownloader extends Thread {
 	  int fails;
 	  int passes;
 	  
-	ImageDownloader(String someURLS[]){
-		count = 0;
+	ImageDownloader(int count, String someURLS[]){
+		this.count = count;
 		fails = 0;
 		passes = 0;
 		passedURLS = someURLS;
-		System.out.println("passed string is " + someURLS[count]);
 	}
 	
 	ImageDownloader(){
 		
 	}
 	
-  public void run(int count, String [] stuff){
-	  passedURLS = stuff;
-	  String temp = null;
-	  	try{
-	  		System.out.println("LOOKING FOR:  "+ passedURLS[count]);
-	  		temp = passedURLS[count];
-	  	}catch(Exception e){
-	  		temp = "haha";
-	  	}
-	//  }else{
-		// System.out.println(temp);
-	  	if(temp.equals("haha")){
-	  		System.out.println("ITS NULL");
-	  		finalImage = "haha";
-	  		locals.add("haha");
-	  	}else if(temp.equals("BadURL") || temp.equals("ConnectionException") || temp.equals("ImageNull") || 
-	  			temp.equals("WrongFormat") || temp.equals("IOException")){
-	  		fails++;
-	  	}
-	  	else{
-		  finalImage = saveImage(temp);
-		  locals.add(finalImage);
-		  passes++; 
-	  	}
-		 // if(count > 3){
-		//	   removeImage = destroyImage();
-		//	   locals.remove(0);
-		 // }
-		  //System.out.println("after");
-	  //}
+  public void run(){
+	  while(true){
+		  //System.out.println("1");
+		  while(count < passedURLS.length){
+			  String temp;
+			  System.out.println("count: " + count + "length: " + passedURLS.length);
+		  	try{
+		  		System.out.println("LOOKING FOR:  "+ passedURLS[count]);
+		  		temp = passedURLS[count];
+		  	}catch(Exception e){
+		  		temp = "haha";
+		  	}
+		//  }else{
+		  System.out.println(temp);
+		  	if(temp.equals("haha")){
+		  		System.out.println("ITS NULL");
+		  		finalImage = "haha";
+		  		locals.add("haha");
+		  	}else if(temp.equals("BadURL") || temp.equals("ConnectionException") || temp.equals("ImageNull") || 
+		  			temp.equals("WrongFormat") || temp.equals("IOException")){
+		  		System.out.println("BAD");
+		  		fails++;
+		  	}
+		  	else{
 
+			  finalImage = saveImage(temp);
+			  System.out.println("temp");
+			  locals.add(finalImage);
+			  passes++; 
+		  	}
+		  	count++;
+		  	System.out.println("count");
+		  }
+	  }
   }
   
   public String destroyImage(){
@@ -96,8 +98,9 @@ public class ImageDownloader extends Thread {
 	  BufferedImage image = null;
 	  String fileType = "";
 	  HttpURLConnection connection;
-	  
+	  System.out.println("IN HERE LOOKING FOR: " + imageUrl);
 	  if (imageUrl.equals(null)){
+		  System.out.println("hey");
 		  return imageUrl;
 	  }
 	  try {
@@ -134,6 +137,7 @@ public class ImageDownloader extends Thread {
 			System.out.println("halp");
 			return("IOException");
 		}
+	  System.out.println("hey");
   return destinationFile;
  }
 }

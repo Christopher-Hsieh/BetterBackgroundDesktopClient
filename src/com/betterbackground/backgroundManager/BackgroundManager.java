@@ -17,31 +17,25 @@ public class BackgroundManager {
 	String [] pics;
 	int count;
 	WallpaperCycler wp;
+	ImageDownloader id; 
+	ArrayList<String> seen;
 	String directory = "C:\\Users\\Public\\BetterBackground";
 	
-	//adds the new wallpapers to the end of the existing wallpapers and then passes it back to the wallpaper cycler which contains a count int
-	//public void passURLS(String channelName, String[] urls){
-		//int aLen = pics.length;
-		//int bLen = urls.length;
-		//String[] newURLS= new String[aLen+bLen];
-		//System.arraycopy(pics, 0, newURLS, 0, aLen);
-		//System.arraycopy(urls, 0, newURLS, aLen, bLen);
-		//pics = newURLS;
-		//wp.images = urls;
-		//wp.run();
-	//}
-/*	@Override
-	public void getUrlsResult(String[] urls) {
-		pics = urls; 
-		if(wp.isAlive()){
-			wp.changeURLS(pics);
-		}else{
-			//do nothing
-			wp.getBatch();
-		}
-	}*/
 	
 	public void newChannel(String name, String[] urls){
+		boolean found = false;
+		for(int i = 0; i < seen.size(); i ++){
+			if(seen.get(i).equals(name)){
+				found = true;
+				break;
+			}
+		}
+		if (found == false){
+			return; //returns if the channel name is already there
+		}else{
+			seen.add(name);
+		}
+		
 		if(pics == null){
 			pics = urls;
 			channel = name;
@@ -54,33 +48,30 @@ public class BackgroundManager {
 			pics = newURLS;
 			channel = name;
 			if(wp.isAlive()){
+				System.out.println("It's alive");
 					wp.changeURLS(pics);
 			}
 		}
-		//pics = urls;
-		//count = 0;d
-		//synchronized method
 	}
 	
 	public void startWallpaperCycler(){
+		id = new ImageDownloader(count, pics);
 		wp = new WallpaperCycler(pics);
-		wp.getBatch();
-		while(true){
-			wp.run();
-			try {
-				wp.sleep(0);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			wp.changeURLS(pics);
-			wp.count = 0;
-			wp.getInitialBatch();
-		}
+		id.start();
+		wp.start();
+
+	}
+	
+	
+	public int startImageThreads(){
+		id = new ImageDownloader(0, pics);
+		id.start();
+		return 0;
 	}
 	
 	public BackgroundManager(){
 		count = 0;
+		seen = new ArrayList<String>();
     	/*makes the folder should it not exits/exists with pictures in it*/
 		if (Files.exists(Paths.get(directory))) {
 			new File(directory).delete();
