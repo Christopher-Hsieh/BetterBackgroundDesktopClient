@@ -25,7 +25,14 @@ public class Initialize {
 		login.createLoginUI();
 		
 		// Create listener to check credentials for Login
-		login.createLoginListener(login, userHandler);
+		try {
+			login.createLoginListener(login, userHandler);
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public static void disposeLogin() {

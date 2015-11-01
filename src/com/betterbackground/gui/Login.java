@@ -107,7 +107,7 @@ public class Login extends JFrame implements LoginListener {
 		});
 	}
 
-	public void createLoginListener(Login listener, UserHandler userhandler) {
+	public void createLoginListener(Login listener, UserHandler userhandler) throws URISyntaxException, InterruptedException {
 		userhandler.addLoginListener(listener);
 	}
 
