@@ -1,5 +1,4 @@
 package com.betterbackground.backgroundManager;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +10,7 @@ import com.sun.jna.platform.win32.WinDef.UINT_PTR;
 import com.sun.jna.win32.StdCallLibrary;
 import com.sun.jna.win32.W32APIFunctionMapper;
 import com.sun.jna.win32.W32APITypeMapper;
+
 
 public class WallpaperCycler extends Thread{
 		String dest = "C:\\Users\\Public\\BetterBackground";
@@ -27,22 +27,31 @@ public class WallpaperCycler extends Thread{
 		id = new ImageDownloader(wallpaperURLS);
 	}
 	
-	public void run(){
+	public void getBatch(){
 		int x = getInitialBatch();
-		while(true){
-			cycleWallpaper();
-			System.out.println("hey i'm in here");
+		System.out.println("X after initial batch is : " + x);
+	}
+	
+	public void run(){
+		while(!(inFolder.get(0).equals("haha"))){
 			inFolder.remove((inFolder.get(0)));
-			id.run(count);
+			System.out.println("REMOVE: " + inFolder.get(0));
+			cycleWallpaper();
+			id.run(count,images);
+			if(id.finalImage.equals("haha")){
+				break;
+			}
 			inFolder.add(id.finalImage);
+			System.out.println("ADD: " + id.finalImage);
+			
 			count++;
 		}
+		//System.out.println("X is : " + x);
 	}
 	
 	public int getInitialBatch(){
-		String temp;
 		while(count < 3){
-			id.run(count);
+			id.run(count,images);
 			inFolder.add(id.finalImage);
 			if(count == 0){
 				cycleWallpaper();
@@ -56,9 +65,9 @@ public class WallpaperCycler extends Thread{
 	
     public int cycleWallpaper(){
 
-    	System.out.println("finally into cycleWallpaper");
     	 String path = "";
-    	 System.out.println("Looking for this one: " + inFolder.get(0));
+    	 System.out.println("NEXT: " + inFolder.get(0));
+		 System.out.println("CYCLE");
     	 path = inFolder.get(0);
 	      SPI.INSTANCE.SystemParametersInfo(
 	              new UINT_PTR(SPI.SPI_SETDESKWALLPAPER), 
@@ -67,11 +76,10 @@ public class WallpaperCycler extends Thread{
 	              new UINT_PTR(SPI.SPIF_UPDATEINIFILE | SPI.SPIF_SENDWININICHANGE));
 	      
 	      try {
-				Thread.sleep(2000);
+				Thread.sleep(6000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-	      System.out.println("yeah returning");
 	      return 0;
 }
     

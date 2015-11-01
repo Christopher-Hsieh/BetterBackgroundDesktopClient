@@ -1,7 +1,9 @@
 package com.betterbackground.backgroundManager;
 
 import static org.junit.Assert.*;
+
 import org.junit.Test;
+
 
 public class getInitialBatchTest {
 	String temp [] = {"http://www.planwallpaper.com/static/images/black-and-blue-cubes-wallpaper1.jpg", "http://www.hobicell.com/wallpaper/lotr/lotr-rohan-desktop-wallpaper-by-zangville-on-rohan-middle-earth-wallpaper-.jpg",
