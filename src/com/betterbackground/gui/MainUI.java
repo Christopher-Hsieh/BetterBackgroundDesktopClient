@@ -16,11 +16,13 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.UIManager;
 
+import com.betterbackground.userhandler.UserHandler;
+import com.betterbackground.userhandler.Interfaces.GetUrlsListener;
 import com.betterbackground.userhandler.Interfaces.MyChannelsListener;
 
 import java.awt.event.ActionListener;
+import java.net.URISyntaxException;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -34,9 +36,6 @@ public class MainUI extends JFrame implements MyChannelsListener {
 	private java.awt.Image img;
 	TrayIcon trayIcon;
 	private static PopupMenu menu;
-	
-	// List of current channels we display.
-	ArrayList<Map<String, Object>> currentChannels = new ArrayList<>();
 	
 	Map<String, Object> channels;
 	
@@ -69,8 +68,8 @@ public class MainUI extends JFrame implements MyChannelsListener {
         
 	}
 	
-	public void createChannelListener() {
-		Initialize.userHandler.addMyChannelsListener(Login.mainUI);
+	public void addMyChannelsListener(MainUI listener, UserHandler userhandler) throws URISyntaxException, InterruptedException {
+		userhandler.addMyChannelsListener(listener);
 	}
 	
 	public void addToggleBtn(String channelName) {
@@ -90,7 +89,7 @@ public class MainUI extends JFrame implements MyChannelsListener {
 						@SuppressWarnings("unchecked")
 						Map<String, Object> channelFields =  (Map<String, Object>) channel.getValue();
 						if (channelBtn.getText() == channelFields.get("title").toString()) {
-							Initialize.userHandler.getChannelUrls(channel.getKey());
+							Initialize.getUrls(channel.getKey());
 							break;
 						}
 					}
@@ -166,7 +165,7 @@ public class MainUI extends JFrame implements MyChannelsListener {
 						@SuppressWarnings("unchecked")
 						Map<String, Object> channelFields =  (Map<String, Object>) channel.getValue();
 						if (tglbtn1.getText() == channelFields.get("title").toString()) {
-							Initialize.userHandler.getChannelUrls(channel.getKey());
+							Initialize.getUrls(channel.getKey());
 							break;
 						}
 					}
@@ -183,7 +182,7 @@ public class MainUI extends JFrame implements MyChannelsListener {
 						@SuppressWarnings("unchecked")
 						Map<String, Object> channelFields =  (Map<String, Object>) channel.getValue();
 						if (tglbtn2.getText() == channelFields.get("title").toString()) {
-							Initialize.userHandler.getChannelUrls(channel.getKey());
+							Initialize.getUrls(channel.getKey());
 							break;
 						}
 					}
@@ -200,7 +199,7 @@ public class MainUI extends JFrame implements MyChannelsListener {
 						@SuppressWarnings("unchecked")
 						Map<String, Object> channelFields =  (Map<String, Object>) channel.getValue();
 						if (tglbtn3.getText() == channelFields.get("title").toString()) {
-							Initialize.userHandler.getChannelUrls(channel.getKey());
+							Initialize.getUrls(channel.getKey());
 							break;
 						}
 					}
@@ -255,18 +254,17 @@ public class MainUI extends JFrame implements MyChannelsListener {
 
 	@Override
 	public void myChannelsResult(Map<String, Object> channelsMap) {
-		// Clear out the list to enter the new ones
-		currentChannels.clear();
-		
-		channels = channelsMap;
+		System.out.println("Got the channelsMap!");
+		channels.putAll(channelsMap); 
 				
 		for (Entry<String, Object> channel : channelsMap.entrySet()) {
             @SuppressWarnings("unchecked")
 			Map<String, Object> channelFields =  (Map<String, Object>) channel.getValue();
-			//addToggleBtn(channelFields.get("title").toString());  
+			//addToggleBtn(channelFields.get("title").toString());
+           
             setChannelBtns(channelFields.get("title").toString());
-			currentChannels.add(channelFields);
 		}
 		
 	}
+
 }
