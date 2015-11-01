@@ -119,12 +119,17 @@ public class MainUI extends JFrame implements MyChannelsListener {
 		setupSystemTray();
 		
 		// create a new panel w. GridBagLayout
-		panel = new JPanel(new GridBagLayout());
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.rowHeights = new int[] {200};
+		gbl_panel.columnWidths = new int[] {100};
+		panel = new JPanel(gbl_panel);
 
+		panel.setBounds(200, 100, 200, 100);
+		
 		constraints = new GridBagConstraints();
 		constraints.gridwidth = 2;
 		constraints.anchor = GridBagConstraints.WEST;
-		constraints.insets = new Insets(10, 10, 10, 10);
+		constraints.insets = new Insets(0, 0, 0, 5);
 		
 		column = 0;
 		row = 0;
@@ -133,40 +138,41 @@ public class MainUI extends JFrame implements MyChannelsListener {
 		panel.setBorder(BorderFactory.createTitledBorder(
 				BorderFactory.createEtchedBorder(), "Channel Selection Menu"));
 
+		panel.setSize(200, 150);
 		// add the panel 
 		getContentPane().add(panel);
 		
-		GridBagConstraints gbc_tglbtn1 = new GridBagConstraints();
-		gbc_tglbtn1.insets = new Insets(0, 0, 0, 5);
-		gbc_tglbtn1.gridx = 0;
-		gbc_tglbtn1.gridy = 0;
-		panel.add(tglbtn1, gbc_tglbtn1);
-		GridBagConstraints gbc_tglbtn2 = new GridBagConstraints();
-		gbc_tglbtn2.insets = new Insets(0, 0, 0, 5);
-		gbc_tglbtn2.gridx = 1;
-		gbc_tglbtn2.gridy = 0;
-		panel.add(tglbtn2, gbc_tglbtn2);
-		GridBagConstraints gbc_tglbtn3 = new GridBagConstraints();
-		gbc_tglbtn3.gridx = 2;
-		gbc_tglbtn3.gridy = 0;
-		panel.add(tglbtn3, gbc_tglbtn3);
-
-		tglbtn1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				sendToggableURL(tglbtn1);}
-			});
-		
-		tglbtn2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				sendToggableURL(tglbtn2);
-			}
-		});
-		
-		tglbtn3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				sendToggableURL(tglbtn3);
-			}
-		});
+//		GridBagConstraints gbc_tglbtn1 = new GridBagConstraints();
+//		gbc_tglbtn1.insets = new Insets(0, 0, 0, 5);
+//		gbc_tglbtn1.gridx = 0;
+//		gbc_tglbtn1.gridy = 0;
+//		panel.add(tglbtn1, gbc_tglbtn1);
+//		GridBagConstraints gbc_tglbtn2 = new GridBagConstraints();
+//		gbc_tglbtn2.insets = new Insets(0, 0, 0, 5);
+//		gbc_tglbtn2.gridx = 1;
+//		gbc_tglbtn2.gridy = 0;
+//		panel.add(tglbtn2, gbc_tglbtn2);
+//		GridBagConstraints gbc_tglbtn3 = new GridBagConstraints();
+//		gbc_tglbtn3.gridx = 2;
+//		gbc_tglbtn3.gridy = 0;
+//		panel.add(tglbtn3, gbc_tglbtn3);
+//
+//		tglbtn1.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				sendToggableURL(tglbtn1);}
+//			});
+//		
+//		tglbtn2.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				sendToggableURL(tglbtn2);
+//			}
+//		});
+//		
+//		tglbtn3.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				sendToggableURL(tglbtn3);
+//			}
+//		});
 		pack();
 		setLocationRelativeTo(null);;
 	}
@@ -227,14 +233,13 @@ public class MainUI extends JFrame implements MyChannelsListener {
 		System.out.println(channelsMap);
 		//channels.putAll(channelsMap); 
 		for (Entry<String, Object> channel : channelsMap.entrySet()) {
-			System.out.println("In here");
             @SuppressWarnings("unchecked")
 			Map<String, Object> channelFields =  (Map<String, Object>) channel.getValue();
-			//addToggleBtn(channelFields.get("title").toString());
+			addToggleBtn(channelFields.get("title").toString());
             ToggableChannels tc = new ToggableChannels(channelFields.get("title").toString(), channel.getKey());
             toggableChannelsList.add(tc);
            
-            setChannelBtns(channelFields.get("title").toString());
+           // setChannelBtns(channelFields.get("title").toString());
 		}
 		
 	}
