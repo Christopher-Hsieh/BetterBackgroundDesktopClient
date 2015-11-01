@@ -36,6 +36,7 @@ public class Initialize {
 	}
 	
 	public static void createMainUI() {
+		login.dispose();
 		login.setVisible(false);
 		MainUI mainUI = new MainUI();
 		mainUI.createMainUI();

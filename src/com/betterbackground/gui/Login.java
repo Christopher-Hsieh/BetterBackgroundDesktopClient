@@ -123,12 +123,8 @@ public class Login extends JFrame implements LoginListener {
 	@Override
 	public void loginResult(boolean result) {
 		if(result) {
-			dispose();
-			Initialize.disposeLogin();
 			mainUI = new MainUI();
 			mainUI.createMainUI();
-			//mainUI.setVisible(true);
-			Initialize.userHandler.addMyChannelsListener(mainUI);
 		} else {
 			status.setText("Login failed, please try again.");
 		}
