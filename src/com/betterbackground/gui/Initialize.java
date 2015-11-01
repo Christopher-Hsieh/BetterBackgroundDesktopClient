@@ -35,7 +35,23 @@ public class Initialize {
 		
 	}
 	
-	public static void disposeLogin() {
-		login.dispose();
+	public static void createMainUI() {
+		login.setVisible(false);
+		MainUI mainUI = new MainUI();
+		mainUI.createMainUI();
+		mainUI.setVisible(true);
+		try {
+			mainUI.addMyChannelsListener(mainUI, userHandler);
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void getUrls(String channelId) {
+		userHandler.getChannelUrls(channelId);
 	}
 }
