@@ -1,7 +1,7 @@
 package com.betterbackground.backgroundManager;
-
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -25,42 +25,83 @@ public class WallpaperCycler extends Thread{
 		images = wallpaperURLS;
 		count = 0;
 		inFolder = new ArrayList<String>();
-		id = new ImageDownloader(wallpaperURLS);
+		id = new ImageDownloader(0, wallpaperURLS);
 	}
 	
+	
+	public synchronized void changeURLS(String[] a ){
+		images = a; 
+	}
+	
+	public String getAnother(){
+		id.run();
+		try {
+			id.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		//	System.out.println("heeeelllppp");
+		}
+		return id.finalImage;
+	}
 	public void run(){
-		int x = getInitialBatch();
 		while(true){
-			cycleWallpaper();
-			System.out.println("hey i'm in here");
-			inFolder.remove((inFolder.get(0)));
-			id.run(count);
-			inFolder.add(id.finalImage);
-			count++;
+		//	System.out.println("heyddddddddddddddd");
+			File dir = new File("C:\\Users\\Public\\BetterBackground");
+			File[] directoryListing = dir.listFiles();
+			if (directoryListing != null) {
+			  for (File child : directoryListing) {
+			      // Do something with child
+			//	  System.out.println("hey doing something");
+				  String path = (child.getPath());
+		//	      System.out.println("PATH: " + path);
+				  if(path.endsWith(".png") || path.endsWith(".jpg") ){
+				      SPI.INSTANCE.SystemParametersInfo(
+				              new UINT_PTR(SPI.SPI_SETDESKWALLPAPER), 
+				              new UINT_PTR(0), 
+				              path, 
+				              new UINT_PTR(SPI.SPIF_UPDATEINIFILE | SPI.SPIF_SENDWININICHANGE));
+				      
+				      try {
+							Thread.sleep(6000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+				  }
+			//	  System.out.println("it's past the cycleWallpaper");
+			    }
+			  }
+		//	System.out.println("2");
 		}
 	}
 	
-	public int getInitialBatch(){
-		String temp;
+	/*public int getInitialBatch(){
 		while(count < 3){
-			id.run(count);
+			id = new ImageDownloader(count, images);
+			id.start();
+			try {
+				id.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("heeeelllppp");
+			}
 			inFolder.add(id.finalImage);
 			if(count == 0){
-				cycleWallpaper();
+				System.out.println("RRREEEEEEEEEEEEEEEEEEE");
+				cycleWallpaper(in);
 			}
 			count++;
-			x++;
 		}
 		return count;
-	}
+	}*/
 	
 	
-    public int cycleWallpaper(){
+    public int cycleWallpaper(String path){
 
-    	System.out.println("finally into cycleWallpaper");
-    	 String path = "";
-    	 System.out.println("Looking for this one: " + inFolder.get(0));
-    	 path = inFolder.get(0);
+    	 //System.out.println("NEXT: " + inFolder.get(0));
+		 //System.out.println("CYCLE");
+    	// System.out.println("PATH: " + path);
 	      SPI.INSTANCE.SystemParametersInfo(
 	              new UINT_PTR(SPI.SPI_SETDESKWALLPAPER), 
 	              new UINT_PTR(0), 
@@ -68,11 +109,10 @@ public class WallpaperCycler extends Thread{
 	              new UINT_PTR(SPI.SPIF_UPDATEINIFILE | SPI.SPIF_SENDWININICHANGE));
 	      
 	      try {
-				Thread.sleep(2000);
+				Thread.sleep(6000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-	      System.out.println("yeah returning");
 	      return 0;
 }
     
