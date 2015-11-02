@@ -23,6 +23,7 @@ public class BackgroundManager {
 	
 	
 	public void newChannel(String name, String[] urls){
+		//System.out.println("Hey i'm in newchannel");
 		boolean found = false;
 		for(int i = 0; i < seen.size(); i ++){
 			if(seen.get(i).equals(name)){
@@ -31,14 +32,16 @@ public class BackgroundManager {
 			}
 		}
 		if (found == false){
-			return; //returns if the channel name is already there
+			seen.add(name); //returns if the channel name is already there
 		}else{
-			seen.add(name);
+			return;
 		}
 		
 		if(pics == null){
+			//System.out.println("it's null");
 			pics = urls;
 			channel = name;
+			id = new ImageDownloader(count, pics);
 		}else{
 			int aLen = pics.length;
 			int bLen = urls.length;
@@ -48,33 +51,32 @@ public class BackgroundManager {
 			pics = newURLS;
 			channel = name;
 			if(wp.isAlive()){
-				System.out.println("It's alive");
+				//System.out.println("It's alive----------------------------------------------");
 					wp.changeURLS(pics);
+					id = new ImageDownloader(count, pics);
 			}
 		}
+		id.start();
 	}
 	
 	public void startWallpaperCycler(){
-		id = new ImageDownloader(count, pics);
 		wp = new WallpaperCycler(pics);
-		id.start();
 		wp.start();
-
+		//System.out.println("started both");
 	}
 	
-	
-	public int startImageThreads(){
-		id = new ImageDownloader(0, pics);
-		id.start();
-		return 0;
-	}
 	
 	public BackgroundManager(){
 		count = 0;
 		seen = new ArrayList<String>();
     	/*makes the folder should it not exits/exists with pictures in it*/
+		File index = new File(directory);
 		if (Files.exists(Paths.get(directory))) {
-			new File(directory).delete();
+			String[] entries = index.list();
+			for(String s: entries){
+			    File currentFile = new File(index.getPath(),s);
+			    currentFile.delete();
+			}
 			//System.out.println("It was real");
 		}    
 		boolean success = new File(directory).mkdir();

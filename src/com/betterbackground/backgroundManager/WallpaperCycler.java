@@ -40,22 +40,22 @@ public class WallpaperCycler extends Thread{
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("heeeelllppp");
+		//	System.out.println("heeeelllppp");
 		}
 		return id.finalImage;
 	}
 	public void run(){
-		String temp;
 		while(true){
-			System.out.println("hey");
+		//	System.out.println("heyddddddddddddddd");
 			File dir = new File("C:\\Users\\Public\\BetterBackground");
 			File[] directoryListing = dir.listFiles();
 			if (directoryListing != null) {
 			  for (File child : directoryListing) {
 			      // Do something with child
-				  System.out.println("hey doing something");
+			//	  System.out.println("hey doing something");
 				  String path = (child.getPath());
-			      System.out.println("PATH: " + path);
+		//	      System.out.println("PATH: " + path);
+				  if(path.endsWith(".png") || path.endsWith(".jpg") ){
 				      SPI.INSTANCE.SystemParametersInfo(
 				              new UINT_PTR(SPI.SPI_SETDESKWALLPAPER), 
 				              new UINT_PTR(0), 
@@ -67,54 +67,12 @@ public class WallpaperCycler extends Thread{
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-				  System.out.println("it's past the cycleWallpaper");
+				  }
+			//	  System.out.println("it's past the cycleWallpaper");
 			    }
 			  }
-			System.out.println("2");
+		//	System.out.println("2");
 		}
-			/*String sourceDirectory = "C:\\Users\\Public\\BetterBackground";
-			File dir = new File(sourceDirectory);
-			File[] directoryListing = dir.listFiles();
-			if (directoryListing != null) {
-			  for (File child : directoryListing) {
-			      // Do something with child
-				  System.out.println("hey doing something");
-				  cycleWallpaper(child.getPath());
-				  System.out.println("it's past the cycleWallpaper");
-			    }
-			  } else {
-			    // Handle the case where dir is not really a directory.
-			    // Checking dir.isDirectory() above would not be sufficient
-			    // to avoid race conditions with another process that deletes
-			    // directories.
-			  }
-		}*/
-			/*	while(!(inFolder.get(0).equals("haha"))){
-					inFolder.remove((inFolder.get(0)));
-					System.out.println("REMOVE: " + inFolder.get(0));
-					System.out.println("Count: " + count);
-					cycleWallpaper();
-					temp = getAnother();
-					count++;
-					if(temp.equals("haha")){
-						break;
-					}
-					inFolder.add(temp);
-					//System.out.println("ADD: " + id.finalImage);
-					System.out.println("Made it here");
-				}
-				System.out.println("OUT OF STUFF SO I'M LOOPING");
-				inFolder.remove((inFolder.get(0)));
-				cycleWallpaper();
-				inFolder.remove((inFolder.get(0)));
-				count = 0;
-				//id = new ImageDownloader();
-				//id.run(count,images);
-				//inFolder.add(id.finalImage);
-				System.out.println("count: " + count);
-				getInitialBatch();
-				//System.out.println("X is : " + x);
-			}*/
 	}
 	
 	/*public int getInitialBatch(){
@@ -143,7 +101,7 @@ public class WallpaperCycler extends Thread{
 
     	 //System.out.println("NEXT: " + inFolder.get(0));
 		 //System.out.println("CYCLE");
-    	 System.out.println("PATH: " + path);
+    	// System.out.println("PATH: " + path);
 	      SPI.INSTANCE.SystemParametersInfo(
 	              new UINT_PTR(SPI.SPI_SETDESKWALLPAPER), 
 	              new UINT_PTR(0), 
