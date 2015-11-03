@@ -35,9 +35,6 @@ public class BackgroundManager {
 			int bLen = urls.length;
 			String[] newURLS= new String[aLen+bLen];
 			System.arraycopy(pics, 0, newURLS, 0, aLen);
-		//remove this
-			System.arraycopy(urls, 0, newURLS, aLen, bLen);
-		//so it doesn't append
 			pics = newURLS;
 			channel = name;
 			
