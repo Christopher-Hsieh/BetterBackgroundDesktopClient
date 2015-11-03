@@ -127,8 +127,6 @@ public class Login extends JFrame implements LoginListener {
 			Initialize.createMainUI();
 		} else {
 			status.setText("Login failed, please try again.");
-			newPanel.revalidate();
-			newPanel.repaint();
 		}
 	}
 }
