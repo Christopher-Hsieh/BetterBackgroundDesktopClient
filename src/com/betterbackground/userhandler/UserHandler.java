@@ -110,27 +110,29 @@ public class UserHandler implements UpdateListener {
 	public void getChannelUrls(String channelId) {
         Object[] methodArgs = new Object[1];
         methodArgs[0] = channelId;
+        ddp.call("/channels/getUrls", methodArgs, obs);
         
-        ddp.call("/channels/getUrls", methodArgs, new DDPListener(){
-			@Override
-        	public void onResult(Map<String, Object> resultFields) {
-        		if(resultFields.containsKey("error")){
-					@SuppressWarnings("unchecked")
-					Map<String, Object> error = (Map<String, Object>) resultFields.get(DdpMessageField.ERROR);
-                    System.err.println("login failure: " + (String) error.get("reason"));
-        		} else {
-        			JSONObject jsonObject = new JSONObject(resultFields);
-        			JSONArray resultArray = jsonObject.getJSONArray(DdpMessageField.RESULT);
-        			String[] urls = new String[resultArray.length()];
-        			
-        			for(int i = 0; i < resultArray.length(); i++){
-        				urls[i] = resultArray.getJSONObject(i).getString("unescapedUrl");
-        			}
-        			
-        			for (GetUrlsListener l : getUrlsListeners)
-        	            l.getUrlsResult(urls);
-        		}
-        	}
-        });
+        new Thread(new Runnable() {
+            public void run(){
+            	try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+            	
+                JSONObject jsonObject = obs.getUrlResult();
+                if(jsonObject != null){
+	        		JSONArray resultArray = jsonObject.getJSONArray(DdpMessageField.RESULT);
+	        		String[] urls = new String[resultArray.length()];
+	        		
+	        		for(int i = 0; i < resultArray.length(); i++){
+	        			urls[i] = resultArray.getJSONObject(i).getString("unescapedUrl");
+	        		}
+	        		
+	        		for (GetUrlsListener l : getUrlsListeners)
+	                    l.getUrlsResult(urls);
+                }
+            }
+        }).start();
 	}
 }

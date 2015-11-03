@@ -22,6 +22,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.Observable;
 import java.util.Observer;
 
@@ -63,6 +67,7 @@ public class DDPClientObserver extends DDPListener implements Observer {
     public Map<String, Map<String, Object>> mCollections;
     public String mReadySubscription;
     public String mPingId;
+    public JSONObject urlResult;
     
     public DDPClientObserver() {
         mDdpState = DDPSTATE.Disconnected;
@@ -156,11 +161,20 @@ public class DDPClientObserver extends DDPListener implements Observer {
                     LOGGER.warning("Received invalid changed msg for collection " + collName);
                 }
             }
-            //TODO: handle addedBefore, movedBefore
-            //dumpMap(jsonFields);
+            if(msgtype.equals(DdpMessageType.RESULT)){
+            	JSONObject fields = new JSONObject(jsonFields);
+            	String fieldsString = fields.toString();
+            	if(fieldsString.contains("unescapedUrl")){
+            		urlResult = fields;
+            	}
+            }
         }
         for (UpdateListener l : updateListeners)
             l.observerUpdated(msg);
+    }
+    
+    public JSONObject getUrlResult(){
+    	return urlResult;
     }
 
     /**
