@@ -14,7 +14,7 @@ public class getInitialBatchTest {
 	@Test
 	public void testGetInitialBatch() {
 		wc = new WallpaperCycler(temp);
-		wc.getInitialBatch();
+		//wc.getInitialBatch();
 		fail("Not yet implemented");
 	}
 

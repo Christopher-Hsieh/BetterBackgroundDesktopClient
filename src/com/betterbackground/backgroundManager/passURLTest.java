@@ -12,7 +12,7 @@ public class passURLTest extends BackgroundManager {
 	public void testPassURLS() {
 		BackgroundManager bm = new BackgroundManager();
 		bm.newChannel("galaxy", temp);
-		bm.passURLS(dogs);
+		//bm.passURLS(dogs);
 		
 		int aLen = temp.length;
 		int bLen = dogs.length;
