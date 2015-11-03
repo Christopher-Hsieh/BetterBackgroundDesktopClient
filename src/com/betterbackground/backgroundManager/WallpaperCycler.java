@@ -57,8 +57,6 @@ public class WallpaperCycler extends Thread{
 				  String path = (child.getPath());
 		//	      System.out.println("PATH: " + path);
 				  
-				  //THIS IS THE SECOND THING TO DEFECT REMOVE THE IF
-				  if(path.endsWith(".png") || path.endsWith(".jpg") ){
 				      SPI.INSTANCE.SystemParametersInfo(
 				              new UINT_PTR(SPI.SPI_SETDESKWALLPAPER), 
 				              new UINT_PTR(0), 
@@ -70,7 +68,6 @@ public class WallpaperCycler extends Thread{
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-				  }
 				  
 				  
 				  
