@@ -76,6 +76,11 @@ public class Login extends JFrame implements LoginListener {
 
 		buttonLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (fieldPassword.getPassword() == null || textUsername.getText().length() == 0) {
+					status.setText("Username and Password fields cannot be empty");
+					newPanel.revalidate();
+					newPanel.repaint();
+				}
 				String password = new String(fieldPassword.getPassword());
 				Initialize.userHandler.login(textUsername.getText(), password);
 			}

@@ -35,11 +35,14 @@ public class Initialize {
 		
 	}
 	
+	@SuppressWarnings("static-access")
 	public static void createMainUI() {
 		login.dispose();
 		login.setVisible(false);
 		MainUI mainUI = new MainUI();
 		mainUI.createMainUI(mainUI);
+		mainUI.setDefaultCloseOperation(mainUI.DISPOSE_ON_CLOSE);
+		mainUI.setDefaultCloseOperation(mainUI.EXIT_ON_CLOSE);
 		mainUI.setVisible(true);
 		try {
 			mainUI.addMyChannelsListener(mainUI, userHandler);
