@@ -17,7 +17,6 @@ import javax.swing.JToggleButton;
 import javax.swing.UIManager;
 
 import com.betterbackground.userhandler.UserHandler;
-import com.betterbackground.userhandler.Interfaces.GetUrlsListener;
 import com.betterbackground.userhandler.Interfaces.MyChannelsListener;
 
 import java.awt.event.ActionListener;
@@ -124,7 +123,7 @@ public class MainUI extends JFrame implements MyChannelsListener {
 		gbl_panel.columnWidths = new int[] {100};
 		panel = new JPanel(gbl_panel);
 
-		panel.setBounds(0, 200, 200, 200);
+		//panel.setBounds(0, 200, 200, 200);
 		
 		constraints = new GridBagConstraints();
 		constraints.gridwidth = 2;
@@ -138,41 +137,10 @@ public class MainUI extends JFrame implements MyChannelsListener {
 		panel.setBorder(BorderFactory.createTitledBorder(
 				BorderFactory.createEtchedBorder(), "Channel Selection Menu"));
 
-		panel.setSize(200, 150);
+		//panel.setSize(500, 200);
+		
 		// add the panel 
 		getContentPane().add(panel);
-		
-//		GridBagConstraints gbc_tglbtn1 = new GridBagConstraints();
-//		gbc_tglbtn1.insets = new Insets(0, 0, 0, 5);
-//		gbc_tglbtn1.gridx = 0;
-//		gbc_tglbtn1.gridy = 0;
-//		panel.add(tglbtn1, gbc_tglbtn1);
-//		GridBagConstraints gbc_tglbtn2 = new GridBagConstraints();
-//		gbc_tglbtn2.insets = new Insets(0, 0, 0, 5);
-//		gbc_tglbtn2.gridx = 1;
-//		gbc_tglbtn2.gridy = 0;
-//		panel.add(tglbtn2, gbc_tglbtn2);
-//		GridBagConstraints gbc_tglbtn3 = new GridBagConstraints();
-//		gbc_tglbtn3.gridx = 2;
-//		gbc_tglbtn3.gridy = 0;
-//		panel.add(tglbtn3, gbc_tglbtn3);
-//
-//		tglbtn1.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				sendToggableURL(tglbtn1);}
-//			});
-//		
-//		tglbtn2.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				sendToggableURL(tglbtn2);
-//			}
-//		});
-//		
-//		tglbtn3.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				sendToggableURL(tglbtn3);
-//			}
-//		});
 		pack();
 		setLocationRelativeTo(null);;
 	}
@@ -207,27 +175,6 @@ public class MainUI extends JFrame implements MyChannelsListener {
 
 	}
 	
-	int button = 1;
-	private final JToggleButton tglbtn1 = new JToggleButton("New toggle button");
-	private final JToggleButton tglbtn2 = new JToggleButton("New toggle button");
-	private final JToggleButton tglbtn3 = new JToggleButton("New toggle button");
-	
-	public void setChannelBtns(String channel) {
-		System.out.println("Changing text of button to " + channel);
-		if (button == 1) {
-			tglbtn1.setText(channel);
-			button++;
-		} else if (button == 2) {
-			tglbtn2.setText(channel);
-			button++;
-		} else {
-			tglbtn3.setText(channel);
-		}
-		panel.revalidate();
-		validate();
-		panel.repaint();
-	}
-
 	@Override
 	public void myChannelsResult(Map<String, Object> channelsMap) {
 		System.out.println(channelsMap);
@@ -238,8 +185,6 @@ public class MainUI extends JFrame implements MyChannelsListener {
 			addToggleBtn(channelFields.get("title").toString());
             ToggableChannels tc = new ToggableChannels(channelFields.get("title").toString(), channel.getKey());
             toggableChannelsList.add(tc);
-           
-           // setChannelBtns(channelFields.get("title").toString());
 		}
 		
 	}

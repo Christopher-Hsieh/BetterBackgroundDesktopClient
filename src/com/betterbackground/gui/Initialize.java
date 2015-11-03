@@ -2,6 +2,8 @@ package com.betterbackground.gui;
 
 import java.net.URISyntaxException;
 
+import javax.swing.JFrame;
+
 import com.betterbackground.backgroundManager.BackgroundManager;
 import com.betterbackground.userhandler.UserHandler;
 
@@ -12,6 +14,7 @@ public class Initialize {
 	
 	static Login login;
 	
+	@SuppressWarnings("static-access")
 	public static void main(String[] args) throws URISyntaxException, InterruptedException {
 		//Initialize
 		login = new Login();
@@ -23,6 +26,8 @@ public class Initialize {
 		
 		// Actually Create the UI
 		login.createLoginUI();
+		login.setDefaultCloseOperation(login.DISPOSE_ON_CLOSE);
+		login.setDefaultCloseOperation(login.EXIT_ON_CLOSE);
 		
 		// Create listener to check credentials for Login
 		try {
@@ -38,7 +43,8 @@ public class Initialize {
 	@SuppressWarnings("static-access")
 	public static void createMainUI() {
 		login.dispose();
-		login.setVisible(false);
+		login.revalidate();
+		
 		MainUI mainUI = new MainUI();
 		mainUI.createMainUI(mainUI);
 		mainUI.setDefaultCloseOperation(mainUI.DISPOSE_ON_CLOSE);
