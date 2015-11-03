@@ -14,16 +14,12 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import org.json.simple.JSONObject;
-
 import java.awt.event.ActionListener;
 import java.net.URISyntaxException;
-import java.util.Map;
 import java.awt.event.ActionEvent;
 
 import com.betterbackground.userhandler.UserHandler;
 import com.betterbackground.userhandler.Interfaces.LoginListener;
-import com.betterbackground.userhandler.Interfaces.MyChannelsListener;
 
 public class Login extends JFrame implements LoginListener {
 
@@ -111,11 +107,6 @@ public class Login extends JFrame implements LoginListener {
 		userhandler.addLoginListener(listener);
 	}
 
-
-	// Does nothing for login. TODO Take out once login listener is done.
-	public void myChannelsResult(JSONObject jsonObject) {
-		// TODO Auto-generated method stub
-	}
 
 	static MainUI mainUI;
 
