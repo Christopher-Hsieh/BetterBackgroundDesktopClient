@@ -1,4 +1,3 @@
-package com.betterbackground.backgroundManager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +19,7 @@ public class WallpaperCycler extends Thread{
 		ArrayList<String> inFolder;
 		ImageDownloader id; 
 		
-	public WallpaperCycler(String [] wallpaperURLS){
+	public WallpaperCyc ler(String [] wallpaperURLS){
 		images = wallpaperURLS;
 		count = 0;
 		inFolder = new ArrayList<String>();
