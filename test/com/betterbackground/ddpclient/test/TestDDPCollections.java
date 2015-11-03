@@ -29,6 +29,7 @@ import org.junit.Test;
 
 import com.betterbackground.ddpclient.DDPClient;
 import com.betterbackground.ddpclient.EmailAuth;
+import com.betterbackground.ddpclient.UsernameAuth;
 import com.betterbackground.ddpclient.test.DDPTestClientObserver.DDPSTATE;
 
 /**
@@ -63,8 +64,8 @@ public class TestDDPCollections {
         //    resume: resumetoken (no password required)
         //  }]
         Object[] methodArgs = new Object[1];
-        EmailAuth emailpass = new EmailAuth(TestConstants.sMeteorUsername, TestConstants.sMeteorPassword);
-        methodArgs[0] = emailpass;
+        UsernameAuth userpass = new UsernameAuth(TestConstants.sMeteorUsername, TestConstants.sMeteorPassword);
+        methodArgs[0] = userpass;
         int methodId = mDdp.call("login", methodArgs, mObs);
         assertEquals(1, methodId);  // first ID should be 1
         
@@ -103,13 +104,13 @@ public class TestDDPCollections {
     @Test
     public void testUnsubscribe() throws Exception {
         // test error handling for invalid subscription
-        mDdp.subscribe("testData", new Object[] {}, mObs);
+        mDdp.subscribe("myChannels", new Object[] {}, mObs);
         // wait a bit to get confirmation
         Thread.sleep(500);
         // make sure we see subscriptions
         assertTrue(mObs.mReadySubscription != null);
         // test unsubscribe
-        mDdp.unsubscribe("testData", mObs);
+        mDdp.unsubscribe("myChannels", mObs);
         // wait a bit to get confirmation
         Thread.sleep(500);
         // make sure we see unsubscription
