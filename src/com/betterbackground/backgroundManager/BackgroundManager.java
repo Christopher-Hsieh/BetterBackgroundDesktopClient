@@ -24,19 +24,6 @@ public class BackgroundManager {
 	
 	public void newChannel(String name, String[] urls){
 		//System.out.println("Hey i'm in newchannel");
-		//remove this check
-		boolean found = false;
-		for(int i = 0; i < seen.size(); i ++){
-			if(seen.get(i).equals(name)){
-				found = true;
-				break;
-			}
-		}
-		if (found == false){
-			seen.add(name); //returns if the channel name is already there
-		}else{
-			return;
-		}
 		
 		if(pics == null){
 			//System.out.println("it's null");
