@@ -18,12 +18,10 @@ import org.json.simple.JSONObject;
 
 import java.awt.event.ActionListener;
 import java.net.URISyntaxException;
-import java.util.Map;
 import java.awt.event.ActionEvent;
 
 import com.betterbackground.userhandler.UserHandler;
 import com.betterbackground.userhandler.Interfaces.LoginListener;
-import com.betterbackground.userhandler.Interfaces.MyChannelsListener;
 
 public class Login extends JFrame implements LoginListener {
 

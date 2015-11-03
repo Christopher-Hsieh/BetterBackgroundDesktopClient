@@ -195,16 +195,6 @@ public class MainUI extends JFrame implements MyChannelsListener {
 		
 		mainUI.setVisible(true);
 		mainUI.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		
-		// Add show App button
-        MenuItem item2 = new MenuItem("Show");
-        item2.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		mainUI.setVisible(true);
-        	}
-        });
-        menu.add(item2);
-
 	}
 	
 	int button = 1;

@@ -39,8 +39,6 @@ public class Initialize {
 	public static void createMainUI() {
 		MainUI mainUI = new MainUI();
 		mainUI.createMainUI(mainUI);
-		mainUI.setDefaultCloseOperation(mainUI.DISPOSE_ON_CLOSE);
-		mainUI.setDefaultCloseOperation(mainUI.EXIT_ON_CLOSE);
 		mainUI.setVisible(true);
 		try {
 			mainUI.addMyChannelsListener(mainUI, userHandler);
