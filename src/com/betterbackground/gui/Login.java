@@ -134,4 +134,12 @@ public class Login extends JFrame implements LoginListener {
 			newPanel.repaint();
 		}
 	}
+	
+	public void destroy(Login login) {
+		login.dispose();
+		this.dispose();
+		dispose();
+		login.revalidate();
+		revalidate();
+	}
 }

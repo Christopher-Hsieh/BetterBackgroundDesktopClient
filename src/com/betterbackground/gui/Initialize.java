@@ -2,8 +2,6 @@ package com.betterbackground.gui;
 
 import java.net.URISyntaxException;
 
-import javax.swing.JFrame;
-
 import com.betterbackground.backgroundManager.BackgroundManager;
 import com.betterbackground.userhandler.UserHandler;
 
@@ -12,6 +10,7 @@ public class Initialize {
 	static UserHandler userHandler;
 	static BackgroundManager backgroundManager;
 	
+	static MainUI mainUI;
 	static Login login;
 	
 	@SuppressWarnings("static-access")
@@ -40,24 +39,25 @@ public class Initialize {
 		
 	}
 	
-	@SuppressWarnings("static-access")
+	@SuppressWarnings({ "static-access"})
 	public static void createMainUI() {
-		login.dispose();
-		login.revalidate();
+		login.destroy(login);
+		if (mainUI == null) {
 		
-		MainUI mainUI = new MainUI();
-		mainUI.createMainUI(mainUI);
-		mainUI.setDefaultCloseOperation(mainUI.DISPOSE_ON_CLOSE);
-		mainUI.setDefaultCloseOperation(mainUI.EXIT_ON_CLOSE);
-		mainUI.setVisible(true);
-		try {
-			mainUI.addMyChannelsListener(mainUI, userHandler);
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			mainUI = new MainUI();
+			mainUI.createMainUI(mainUI);
+			mainUI.setDefaultCloseOperation(mainUI.DISPOSE_ON_CLOSE);
+			mainUI.setDefaultCloseOperation(mainUI.EXIT_ON_CLOSE);
+			mainUI.setVisible(true);
+			try {
+				mainUI.addMyChannelsListener(mainUI, userHandler);
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
