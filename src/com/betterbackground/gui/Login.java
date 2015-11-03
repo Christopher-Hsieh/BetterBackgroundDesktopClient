@@ -39,12 +39,13 @@ public class Login extends JFrame implements LoginListener {
 	public JButton buttonLogin = new JButton("Login");
 
 	private JLabel status = new JLabel(" ");
+	JPanel newPanel;
 
 	public Login() {
 		//super("Better Background Login");
 
 		// create a new panel w. GridBagLayout
-		JPanel newPanel = new JPanel(new GridBagLayout());
+		newPanel = new JPanel(new GridBagLayout());
 
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.anchor = GridBagConstraints.WEST;
@@ -126,6 +127,8 @@ public class Login extends JFrame implements LoginListener {
 			Initialize.createMainUI();
 		} else {
 			status.setText("Login failed, please try again.");
+			newPanel.revalidate();
+			newPanel.repaint();
 		}
 	}
 }
