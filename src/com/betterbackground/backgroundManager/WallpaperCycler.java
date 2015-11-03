@@ -46,7 +46,7 @@ public class WallpaperCycler extends Thread{
 	}
 	public void run(){
 		//remove the while and add a sleep
-		while(true){
+		for(int n = 0; n < 40; n++){
 		//	System.out.println("heyddddddddddddddd");
 			File dir = new File("C:\\Users\\Public\\BetterBackground");
 			File[] directoryListing = dir.listFiles();
