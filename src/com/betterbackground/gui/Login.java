@@ -14,12 +14,16 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import org.json.simple.JSONObject;
+
 import java.awt.event.ActionListener;
 import java.net.URISyntaxException;
+import java.util.Map;
 import java.awt.event.ActionEvent;
 
 import com.betterbackground.userhandler.UserHandler;
 import com.betterbackground.userhandler.Interfaces.LoginListener;
+import com.betterbackground.userhandler.Interfaces.MyChannelsListener;
 
 public class Login extends JFrame implements LoginListener {
 
@@ -35,12 +39,13 @@ public class Login extends JFrame implements LoginListener {
 	public JButton buttonLogin = new JButton("Login");
 
 	private JLabel status = new JLabel(" ");
+	JPanel newPanel;
 
 	public Login() {
 		//super("Better Background Login");
 
 		// create a new panel w. GridBagLayout
-		JPanel newPanel = new JPanel(new GridBagLayout());
+		newPanel = new JPanel(new GridBagLayout());
 
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.anchor = GridBagConstraints.WEST;
@@ -108,6 +113,11 @@ public class Login extends JFrame implements LoginListener {
 	}
 
 
+	// Does nothing for login. TODO Take out once login listener is done.
+	public void myChannelsResult(JSONObject jsonObject) {
+		// TODO Auto-generated method stub
+	}
+
 	static MainUI mainUI;
 
 	// Login result is returned. Handle the case accordingly
@@ -116,7 +126,9 @@ public class Login extends JFrame implements LoginListener {
 		if(result) {
 			Initialize.createMainUI();
 		} else {
-			status.setText("Incorrect password, please try again.");
+			status.setText("Login failed, please try again.");
+			newPanel.revalidate();
+			newPanel.repaint();
 		}
 	}
 }
