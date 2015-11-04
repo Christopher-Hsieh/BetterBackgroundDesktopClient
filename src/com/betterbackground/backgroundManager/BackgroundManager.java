@@ -21,7 +21,15 @@ public class BackgroundManager {
 	ArrayList<String> seen;
 	String directory = "C:\\Users\\Public\\BetterBackground";
 	
-	
+	@Override
+	public void getUrlsResult(String[] urls){
+		pics = urls;
+		if(wp.isAlive()){
+				wp.changeURLS(pics);
+		}
+		id = new ImageDownloader(count, pics);
+		id.start();
+	}
 	public void newChannel(String name, String[] urls){
 		//System.out.println("Hey i'm in newchannel");
 		
