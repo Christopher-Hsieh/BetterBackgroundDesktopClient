@@ -10,8 +10,10 @@ public class Initialize {
 	static UserHandler userHandler;
 	static BackgroundManager backgroundManager;
 	
+	static MainUI mainUI;
 	static Login login;
 	
+	@SuppressWarnings("static-access")
 	public static void main(String[] args) throws URISyntaxException, InterruptedException {
 		//Initialize
 		login = new Login();
@@ -23,6 +25,8 @@ public class Initialize {
 		
 		// Actually Create the UI
 		login.createLoginUI();
+		login.setDefaultCloseOperation(login.DISPOSE_ON_CLOSE);
+		login.setDefaultCloseOperation(login.EXIT_ON_CLOSE);
 		
 		// Create listener to check credentials for Login
 		try {
@@ -35,20 +39,25 @@ public class Initialize {
 		
 	}
 	
+	@SuppressWarnings({ "static-access"})
 	public static void createMainUI() {
-		login.dispose();
-		login.setVisible(false);
-		MainUI mainUI = new MainUI();
-		mainUI.createMainUI(mainUI);
-		mainUI.setVisible(true);
-		try {
-			mainUI.addMyChannelsListener(mainUI, userHandler);
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		login.destroy(login);
+		if (mainUI == null) {
+		
+			mainUI = new MainUI();
+			mainUI.createMainUI(mainUI);
+			mainUI.setDefaultCloseOperation(mainUI.DISPOSE_ON_CLOSE);
+			mainUI.setDefaultCloseOperation(mainUI.EXIT_ON_CLOSE);
+			mainUI.setVisible(true);
+			try {
+				mainUI.addMyChannelsListener(mainUI, userHandler);
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	

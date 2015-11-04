@@ -18,12 +18,10 @@ import org.json.simple.JSONObject;
 
 import java.awt.event.ActionListener;
 import java.net.URISyntaxException;
-import java.util.Map;
 import java.awt.event.ActionEvent;
 
 import com.betterbackground.userhandler.UserHandler;
 import com.betterbackground.userhandler.Interfaces.LoginListener;
-import com.betterbackground.userhandler.Interfaces.MyChannelsListener;
 
 public class Login extends JFrame implements LoginListener {
 
@@ -39,12 +37,13 @@ public class Login extends JFrame implements LoginListener {
 	public JButton buttonLogin = new JButton("Login");
 
 	private JLabel status = new JLabel(" ");
+	JPanel newPanel;
 
 	public Login() {
 		//super("Better Background Login");
 
 		// create a new panel w. GridBagLayout
-		JPanel newPanel = new JPanel(new GridBagLayout());
+		newPanel = new JPanel(new GridBagLayout());
 
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.anchor = GridBagConstraints.WEST;
@@ -75,6 +74,11 @@ public class Login extends JFrame implements LoginListener {
 
 		buttonLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (fieldPassword.getPassword() == null || textUsername.getText().length() == 0) {
+					status.setText("Username and Password fields cannot be empty");
+					newPanel.revalidate();
+					newPanel.repaint();
+				}
 				String password = new String(fieldPassword.getPassword());
 				Initialize.userHandler.login(textUsername.getText(), password);
 			}
@@ -126,6 +130,16 @@ public class Login extends JFrame implements LoginListener {
 			Initialize.createMainUI();
 		} else {
 			status.setText("Login failed, please try again.");
+			newPanel.revalidate();
+			newPanel.repaint();
 		}
+	}
+	
+	public void destroy(Login login) {
+		login.dispose();
+		this.dispose();
+		dispose();
+		login.revalidate();
+		revalidate();
 	}
 }
