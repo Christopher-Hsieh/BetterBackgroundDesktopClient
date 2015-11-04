@@ -1,4 +1,3 @@
-package com.betterbackground.backgroundManager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +19,7 @@ public class WallpaperCycler extends Thread{
 		ArrayList<String> inFolder;
 		ImageDownloader id; 
 		
-	public WallpaperCycler(String [] wallpaperURLS){
+	public WallpaperCyc ler(String [] wallpaperURLS){
 		images = wallpaperURLS;
 		count = 0;
 		inFolder = new ArrayList<String>();
@@ -30,10 +29,6 @@ public class WallpaperCycler extends Thread{
 	public void getBatch(){
 		int x = getInitialBatch();
 		System.out.println("X after initial batch is : " + x);
-	}
-	
-	public synchronized void changeURLS(String[] a ){
-		images = a; 
 	}
 	
 	public void run(){
@@ -49,13 +44,6 @@ public class WallpaperCycler extends Thread{
 			System.out.println("ADD: " + id.finalImage);
 			
 			count++;
-		}
-		if(inFolder.get(0).equals("haha")){
-			inFolder.remove((inFolder.get(0)));
-			System.out.println("REMOVE: " + inFolder.get(0));
-			count = 0;
-			run();
-
 		}
 		//System.out.println("X is : " + x);
 	}
