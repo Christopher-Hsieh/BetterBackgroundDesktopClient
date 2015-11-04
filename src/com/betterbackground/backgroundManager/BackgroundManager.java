@@ -23,6 +23,7 @@ public class BackgroundManager {
 	
 	@Override
 	public void getUrlsResult(String[] urls){
+		startWallpaperCycler();
 		pics = urls;
 		if(wp.isAlive()){
 				wp.changeURLS(pics);
