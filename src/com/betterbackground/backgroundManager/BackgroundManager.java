@@ -23,6 +23,10 @@ public class BackgroundManager implements GetUrlsListener{
 	
 	@Override
 	public void getUrlsResult(String[] urls){
+		System.out.println(urls);
+		if(pics == null){
+			startWallpaperCycler();
+		}
 		pics = urls;
 		if(wp.isAlive()){
 			wp.changeURLS(pics);
@@ -30,8 +34,9 @@ public class BackgroundManager implements GetUrlsListener{
 		id = new ImageDownloader(count,pics);
 		id.start();
 	}
+	
 	public void newChannel(String name, String[] urls){
-		//System.out.println("Hey i'm in newchannel");
+		System.out.println("Hey i'm in newchannel");
 		boolean found = false;
 		for(int i = 0; i < seen.size(); i ++){
 			if(seen.get(i).equals(name)){

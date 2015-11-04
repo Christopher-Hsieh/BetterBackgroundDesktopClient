@@ -14,7 +14,14 @@ public class BackgroundManagerTest {
 	public void test() {
 		bm.newChannel("Galaxies", temp);
 		bm.startWallpaperCycler();
+		System.out.println("heybooooooob");
+
+		bm.newChannel("dogs", temp);
+		System.out.println("-------------------------------------------------");
+		//bm.newChannel("Dogs", temp);
 		//fail("Not yet implemented");
+		while(true){
+		}
 	}
 
 }
