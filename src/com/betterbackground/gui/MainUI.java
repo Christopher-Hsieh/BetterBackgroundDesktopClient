@@ -114,7 +114,7 @@ public class MainUI extends JFrame implements MyChannelsListener {
 	
 	public MainUI() {
 		super("Better Background Main UI");
-
+		
 		// Set up the system tray
 		setupSystemTray();
 		
@@ -124,7 +124,7 @@ public class MainUI extends JFrame implements MyChannelsListener {
 		gbl_panel.columnWidths = new int[] {100};
 		panel = new JPanel(gbl_panel);
 
-		panel.setBounds(200, 100, 200, 100);
+		panel.setBounds(0, 200, 200, 200);
 		
 		constraints = new GridBagConstraints();
 		constraints.gridwidth = 2;
@@ -195,16 +195,6 @@ public class MainUI extends JFrame implements MyChannelsListener {
 		
 		mainUI.setVisible(true);
 		mainUI.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		
-		// Add show App button
-        MenuItem item2 = new MenuItem("Show");
-        item2.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		mainUI.setVisible(true);
-        	}
-        });
-        menu.add(item2);
-
 	}
 	
 	int button = 1;
