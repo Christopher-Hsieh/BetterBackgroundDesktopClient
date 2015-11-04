@@ -14,6 +14,7 @@ public class BackgroundManagerTest {
 	public void test() {
 		bm.newChannel("Galaxies", temp);
 		bm.startWallpaperCycler();
+<<<<<<< HEAD
 		System.out.println("heybooooooob");
 
 		bm.newChannel("dogs", temp);
@@ -22,6 +23,10 @@ public class BackgroundManagerTest {
 		//fail("Not yet implemented");
 		while(true){
 		}
+=======
+		bm.passURLS(temp);
+		//fail("Not yet implemented");
+>>>>>>> origin/master
 	}
 
 }

@@ -28,6 +28,7 @@ public class WallpaperCycler extends Thread{
 		id = new ImageDownloader(0, wallpaperURLS);
 	}
 	
+<<<<<<< HEAD
 	
 	public synchronized void changeURLS(String[] a ){
 		images = a; 
@@ -72,9 +73,31 @@ public class WallpaperCycler extends Thread{
 			    }
 			  }
 		//	System.out.println("2");
-		}
+=======
+	public void getBatch(){
+		int x = getInitialBatch();
+		System.out.println("X after initial batch is : " + x);
 	}
 	
+	public void run(){
+		while(!(inFolder.get(0).equals("haha"))){
+			inFolder.remove((inFolder.get(0)));
+			System.out.println("REMOVE: " + inFolder.get(0));
+			cycleWallpaper();
+			id.run(count,images);
+			if(id.finalImage.equals("haha")){
+				break;
+			}
+			inFolder.add(id.finalImage);
+			System.out.println("ADD: " + id.finalImage);
+			
+			count++;
+>>>>>>> origin/master
+		}
+		//System.out.println("X is : " + x);
+	}
+	
+<<<<<<< HEAD
 	/*public int getInitialBatch(){
 		while(count < 3){
 			id = new ImageDownloader(count, images);
@@ -86,6 +109,11 @@ public class WallpaperCycler extends Thread{
 				e.printStackTrace();
 				System.out.println("heeeelllppp");
 			}
+=======
+	public int getInitialBatch(){
+		while(count < 3){
+			id.run(count,images);
+>>>>>>> origin/master
 			inFolder.add(id.finalImage);
 			if(count == 0){
 				System.out.println("RRREEEEEEEEEEEEEEEEEEE");
@@ -99,9 +127,16 @@ public class WallpaperCycler extends Thread{
 	
     public int cycleWallpaper(String path){
 
+<<<<<<< HEAD
     	 //System.out.println("NEXT: " + inFolder.get(0));
 		 //System.out.println("CYCLE");
     	// System.out.println("PATH: " + path);
+=======
+    	 String path = "";
+    	 System.out.println("NEXT: " + inFolder.get(0));
+		 System.out.println("CYCLE");
+    	 path = inFolder.get(0);
+>>>>>>> origin/master
 	      SPI.INSTANCE.SystemParametersInfo(
 	              new UINT_PTR(SPI.SPI_SETDESKWALLPAPER), 
 	              new UINT_PTR(0), 

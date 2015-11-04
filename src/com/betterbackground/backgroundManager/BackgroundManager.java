@@ -6,13 +6,15 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import com.betterbackground.userhandler.Interfaces.GetUrlsListener;
 import com.sun.jna.Native;
 import com.sun.jna.platform.FileUtils;
 import com.sun.jna.platform.win32.WinDef.UINT_PTR;
 import com.betterbackground.userhandler.Interfaces.*;
 import com.sun.jna.win32.*;
 
-public class BackgroundManager {
+public class BackgroundManager implements GetUrlsListener {
 	String channel;
 	String [] pics;
 	int count;
@@ -21,6 +23,31 @@ public class BackgroundManager {
 	ArrayList<String> seen;
 	String directory = "C:\\Users\\Public\\BetterBackground";
 	
+<<<<<<< HEAD
+=======
+	@Override
+	public void getUrlsResult(String[] urls) {
+		//ArrayList<String> pics
+		//pics.add(urls);
+		pics = urls;
+		
+		wp = new WallpaperCycler(pics);
+		wp.getBatch();
+		wp.run();
+	}
+	
+	//adds the new wallpapers to the end of the existing wallpapers and then passes it back to the wallpaper cycler which contains a count int
+	public void passURLS(String[] urls){
+		//int aLen = pics.length;
+		//int bLen = urls.length;
+		//String[] newURLS= new String[aLen+bLen];
+		//System.arraycopy(pics, 0, newURLS, 0, aLen);
+		//System.arraycopy(urls, 0, newURLS, aLen, bLen);
+		//pics = newURLS;
+		wp.images = urls;
+		wp.run();
+	}
+>>>>>>> origin/master
 	
 	public void newChannel(String name, String[] urls){
 		//System.out.println("Hey i'm in newchannel");
@@ -61,8 +88,13 @@ public class BackgroundManager {
 	
 	public void startWallpaperCycler(){
 		wp = new WallpaperCycler(pics);
+<<<<<<< HEAD
 		wp.start();
 		//System.out.println("started both");
+=======
+		wp.getBatch();
+		wp.run();
+>>>>>>> origin/master
 	}
 	
 	
@@ -72,6 +104,7 @@ public class BackgroundManager {
     	/*makes the folder should it not exits/exists with pictures in it*/
 		File index = new File(directory);
 		if (Files.exists(Paths.get(directory))) {
+<<<<<<< HEAD
 			String[] entries = index.list();
 			for(String s: entries){
 			    File currentFile = new File(index.getPath(),s);
@@ -81,10 +114,17 @@ public class BackgroundManager {
 		}    
 		boolean success = new File(directory).mkdir();
 		if(success != true){
+=======
+			new File(directory).delete();
+			System.out.println("It was real");
+		}    
+		boolean success = new File(directory).mkdir();
+		if(success != true){
+			//this failed
+>>>>>>> origin/master
 			//System.out.println("failed in making the folder");
 		}else{
 			//System.out.println("Created" + directory);
 		}
-	}
-	
+	}	
 }

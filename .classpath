@@ -12,7 +12,13 @@
 	<classpathentry kind="lib" path="libs/slf4j-api-1.7.12.jar"/>
 	<classpathentry kind="lib" path="libs/slf4j-simple-1.7.12.jar"/>
 	<classpathentry kind="lib" path="libs/json-simple-1.1.1.jar"/>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="jna-platform-4.2.0.jar"/>
 	<classpathentry kind="lib" path="jna-4.2.0.jar"/>
+=======
+	<classpathentry kind="lib" path="libs/jna-4.2.0.jar"/>
+	<classpathentry kind="lib" path="libs/jna-platform-4.2.0.jar"/>
+	<classpathentry kind="lib" path="libs/json-20150729.jar"/>
+>>>>>>> origin/master
 	<classpathentry kind="output" path="bin"/>
 </classpath>
