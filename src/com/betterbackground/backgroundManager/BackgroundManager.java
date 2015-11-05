@@ -23,7 +23,10 @@ public class BackgroundManager {
 	
 	@Override
 	public void getUrlsResult(String[] urls){
-		startWallpaperCycler();
+		System.out.println(urls);
+		if(pics == null){
+			startWallpaperCycler();
+		}
 		pics = urls;
 		if(wp.isAlive()){
 				wp.changeURLS(pics);
@@ -32,7 +35,7 @@ public class BackgroundManager {
 		id.start();
 	}
 	public void newChannel(String name, String[] urls){
-		//System.out.println("Hey i'm in newchannel");
+		System.out.println("Hey i'm in newchannel");
 		
 		if(pics == null){
 			//System.out.println("it's null");
