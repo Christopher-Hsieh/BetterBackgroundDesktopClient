@@ -12,7 +12,7 @@ import com.sun.jna.platform.win32.WinDef.UINT_PTR;
 import com.betterbackground.userhandler.Interfaces.*;
 import com.sun.jna.win32.*;
 
-public class BackgroundManager {
+public class BackgroundManager implements GetUrlsListener{
 	String channel;
 	String [] pics;
 	int count;
@@ -23,20 +23,20 @@ public class BackgroundManager {
 	
 	@Override
 	public void getUrlsResult(String[] urls){
-		System.out.println(urls);
 		if(pics == null){
 			startWallpaperCycler();
 		}
 		pics = urls;
 		if(wp.isAlive()){
-				wp.changeURLS(pics);
+			wp.changeURLS(pics);
 		}
-		id = new ImageDownloader(count, pics);
+		id = new ImageDownloader(count,pics);
 		id.start();
 	}
+	
 	public void newChannel(String name, String[] urls){
-		System.out.println("Hey i'm in newchannel");
-		
+		//System.out.println("Hey i'm in newchannel");
+	
 		if(pics == null){
 			//System.out.println("it's null");
 			pics = urls;
@@ -49,13 +49,11 @@ public class BackgroundManager {
 			System.arraycopy(pics, 0, newURLS, 0, aLen);
 			pics = newURLS;
 			channel = name;
-			
 			if(wp.isAlive()){
 				//System.out.println("It's alive----------------------------------------------");
 					wp.changeURLS(pics);
 					id = new ImageDownloader(count, pics);
 			}
-			
 		}
 		id.start();
 	}

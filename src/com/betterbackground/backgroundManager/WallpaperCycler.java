@@ -45,8 +45,8 @@ public class WallpaperCycler extends Thread{
 		return id.finalImage;
 	}
 	public void run(){
-		//remove the while and add a sleep
-		for(int n = 0; n < 40; n++){
+		int y = 0;
+		while(y < 10){
 		//	System.out.println("heyddddddddddddddd");
 			File dir = new File("C:\\Users\\Public\\BetterBackground");
 			File[] directoryListing = dir.listFiles();
@@ -56,7 +56,6 @@ public class WallpaperCycler extends Thread{
 			//	  System.out.println("hey doing something");
 				  String path = (child.getPath());
 		//	      System.out.println("PATH: " + path);
-				  
 				      SPI.INSTANCE.SystemParametersInfo(
 				              new UINT_PTR(SPI.SPI_SETDESKWALLPAPER), 
 				              new UINT_PTR(0), 
@@ -64,13 +63,11 @@ public class WallpaperCycler extends Thread{
 				              new UINT_PTR(SPI.SPIF_UPDATEINIFILE | SPI.SPIF_SENDWININICHANGE));
 				      
 				      try {
-							Thread.sleep(10000);
+							Thread.sleep(6000);
+							y++;
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-				  
-				  
-				  
 			//	  System.out.println("it's past the cycleWallpaper");
 			    }
 			  }

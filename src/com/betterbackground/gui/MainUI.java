@@ -174,7 +174,7 @@ public class MainUI extends JFrame implements MyChannelsListener {
 //			}
 //		});
 		pack();
-		setLocationRelativeTo(null);;
+		setLocationRelativeTo(null);
 	}
 	
 	public void sendToggableURL(JToggleButton jtglbtn) {
