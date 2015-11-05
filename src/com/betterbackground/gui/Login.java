@@ -36,7 +36,7 @@ public class Login extends JFrame implements LoginListener {
 	private JPasswordField fieldPassword = new JPasswordField(20);
 	public JButton buttonLogin = new JButton("Login");
 
-	private JLabel status = new JLabel(" ");
+	private JLabel status = new JLabel(" Please Log in");
 	JPanel newPanel;
 
 	public Login() {
@@ -64,9 +64,9 @@ public class Login extends JFrame implements LoginListener {
 		constraints.gridx = 1;
 		newPanel.add(fieldPassword, constraints);
 
-		constraints.gridx = 2;
-		newPanel.add(status, constraints);
-
+		status.setForeground(Color.black);
+		add("South", status);
+		
 		constraints.gridx = 0;
 		constraints.gridy = 2;
 		constraints.gridwidth = 2;
@@ -93,7 +93,7 @@ public class Login extends JFrame implements LoginListener {
 		getContentPane().add(newPanel);
 
 		pack();
-		setLocationRelativeTo(null);;
+		setLocationRelativeTo(null);
 	}
 
 	public void createLoginUI() {
@@ -106,7 +106,7 @@ public class Login extends JFrame implements LoginListener {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				new Login().setVisible(true);
+				setVisible(true);
 			}
 		});
 	}
@@ -129,9 +129,7 @@ public class Login extends JFrame implements LoginListener {
 		if(result) {
 			Initialize.createMainUI();
 		} else {
-			status.setText("Login failed, please try again.");
-			newPanel.revalidate();
-			newPanel.repaint();
+			status.setText(" Login failed, please try again.");
 		}
 	}
 	
