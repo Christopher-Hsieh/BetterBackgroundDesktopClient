@@ -29,24 +29,12 @@ public class UserHandler implements UpdateListener {
 	public DDPClientObserver obs = null;
 	public Map<String, Object> myChannels;
 
-	public UserHandler() throws URISyntaxException, InterruptedException{
-		int connectAttempts = 0;
+	public UserHandler() throws URISyntaxException{
 		myChannels = new HashMap<String, Object>();
 		ddp = new DDPClient(Constants.sMeteorHost, Constants.sMeteorPort);
 		obs = new DDPClientObserver();
 		obs.addUpdateListener(this);
 		ddp.addObserver(obs);
-		ddp.connect();
-			
-		//add timeout after so many attempts
-		//replace this using state change
-		while(obs.mDdpState != DDPSTATE.Connected){
-			Thread.sleep(1000);
-			if(connectAttempts++ == 20){
-				System.err.println("Too many failed attempts");
-				break;
-			}
-		}
 	}
 	
 	public void addLoginListener(LoginListener listener){
@@ -65,6 +53,26 @@ public class UserHandler implements UpdateListener {
 		ddp.disconnect();
 	}
 	
+	public void connect(){
+		int connectAttempts = 0;
+		ddp.connect();
+		
+		//add timeout after so many attempts
+		//replace this using state change
+		while(obs.mDdpState != DDPSTATE.Connected){
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if(connectAttempts++ == 5){
+				System.err.println("Too many failed attempts");
+				break;
+			}
+		}
+	}
+	
 	/*
 	 * This function gets notified of any state change in the observer
 	 */
@@ -80,6 +88,11 @@ public class UserHandler implements UpdateListener {
 	}
 
 	public void login(String username, String password){
+		if(obs.mDdpState != DDPSTATE.Connected){
+			for (LoginListener l : loginListeners)
+	            l.loginResult(false);
+		}
+		
         Object[] methodArgs = new Object[1];
         UsernameAuth userpass = new UsernameAuth(username, password);
         methodArgs[0] = userpass;
@@ -91,6 +104,7 @@ public class UserHandler implements UpdateListener {
         			@SuppressWarnings("unchecked")
 					Map<String, Object> error = (Map<String, Object>) resultFields.get(DdpMessageField.ERROR);
                     System.err.println("login failure: " + (String) error.get("reason"));
+                    System.out.println("HERE");
         			for (LoginListener l : loginListeners)
         	            l.loginResult(false);
         		} else {

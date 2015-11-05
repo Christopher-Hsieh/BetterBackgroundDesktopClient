@@ -23,6 +23,7 @@ public class Initialize {
 		
 		// Actually Create the UI
 		login.createLoginUI();
+		userHandler.connect();
 		
 		// Create listener to check credentials for Login
 		try {
