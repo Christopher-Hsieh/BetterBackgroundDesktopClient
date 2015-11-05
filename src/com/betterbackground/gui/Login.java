@@ -1,6 +1,5 @@
 package com.betterbackground.gui;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -37,7 +36,7 @@ public class Login extends JFrame implements LoginListener {
 	private JPasswordField fieldPassword = new JPasswordField(20);
 	public JButton buttonLogin = new JButton("Login");
 
-	private JLabel status = new JLabel(" Please Log in");
+	private JLabel status = new JLabel(" ");
 	JPanel newPanel;
 
 	public Login() {
@@ -65,8 +64,8 @@ public class Login extends JFrame implements LoginListener {
 		constraints.gridx = 1;
 		newPanel.add(fieldPassword, constraints);
 
-		status.setForeground(Color.black);
-		add("South", status);
+		constraints.gridx = 2;
+		newPanel.add(status, constraints);
 
 		constraints.gridx = 0;
 		constraints.gridy = 2;
@@ -89,7 +88,7 @@ public class Login extends JFrame implements LoginListener {
 		getContentPane().add(newPanel);
 
 		pack();
-		setLocationRelativeTo(null);
+		setLocationRelativeTo(null);;
 	}
 
 	public void createLoginUI() {
@@ -102,7 +101,7 @@ public class Login extends JFrame implements LoginListener {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				setVisible(true);
+				new Login().setVisible(true);
 			}
 		});
 	}
@@ -125,7 +124,7 @@ public class Login extends JFrame implements LoginListener {
 		if(result) {
 			Initialize.createMainUI();
 		} else {
-			status.setText(" Login failed, please try again.");
+			status.setText("Login failed, please try again.");
 		}
 	}
 }
