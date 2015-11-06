@@ -26,17 +26,38 @@ public class ImageDownloader extends Thread {
 	  int fails;
 	  int passes;
 	  
+<<<<<<< HEAD
 	ImageDownloader(int count, String someURLS[]){
 		this.count = count;
 		fails = 0;
 		passes = 0;
 		passedURLS = someURLS;
+=======
+<<<<<<< HEAD
+	ImageDownloader(int count, String someURLS[]){
+		this.count = count;
+		fails = 0;
+		passes = 0;
+		passedURLS = someURLS;
+=======
+	ImageDownloader(String someURLS[]){
+		count = 0;
+		fails = 0;
+		passes = 0;
+		passedURLS = someURLS;
+		System.out.println("passed string is " + someURLS[count]);
+>>>>>>> origin/master
+>>>>>>> master
 	}
 	
 	ImageDownloader(){
 		
 	}
 	
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> master
   public void run(){
 	  while(true){
 		  //System.out.println("1");
@@ -70,12 +91,56 @@ public class ImageDownloader extends Thread {
 		//	  	System.out.println("count");
 		  }
 	  }
+<<<<<<< HEAD
+=======
+=======
+  public void run(int count, String [] stuff){
+	  passedURLS = stuff;
+	  String temp = null;
+	  	try{
+	  		System.out.println("LOOKING FOR:  "+ passedURLS[count]);
+	  		temp = passedURLS[count];
+	  	}catch(Exception e){
+	  		temp = "haha";
+	  	}
+	//  }else{
+		// System.out.println(temp);
+	  	if(temp.equals("haha")){
+	  		System.out.println("ITS NULL");
+	  		finalImage = "haha";
+	  		locals.add("haha");
+	  	}else if(saveImage(temp).equals("BadURL") || saveImage(temp).equals("ConnectionException") || saveImage(temp).equals("ImageNull") || 
+	  			saveImage(temp).equals("WrongFormat") || saveImage(temp).equals("IOException")){
+	  		fails++;
+	  	}
+	  	else{
+	  	}
+		  finalImage = saveImage(temp);
+		  locals.add(finalImage);
+		  passes++; 
+		 // if(count > 3){
+		//	   removeImage = destroyImage();
+		//	   locals.remove(0);
+		 // }
+		  //System.out.println("after");
+	  //}
+
+>>>>>>> origin/master
+>>>>>>> master
   }
   
   public String destroyImage(){
 	  String temp;
 	  temp = locals.get(0);
+<<<<<<< HEAD
 	//  System.out.println("DESTRYOING: " + locals.get(0));
+=======
+<<<<<<< HEAD
+	//  System.out.println("DESTRYOING: " + locals.get(0));
+=======
+	  System.out.println("DESTRYOING: " + locals.get(0));
+>>>>>>> origin/master
+>>>>>>> master
 	  File file = new File("C:\\Users\\Public\\BetterBackground\\" + locals.get(0));
 	  try{
 		  file.delete();
@@ -100,7 +165,14 @@ public class ImageDownloader extends Thread {
 	 // System.out.println("IN HERE LOOKING FOR: " + imageUrl);
 	  
 	  if (imageUrl.equals(null)){
+<<<<<<< HEAD
 		//  System.out.println("heynull");
+=======
+<<<<<<< HEAD
+		//  System.out.println("heynull");
+=======
+>>>>>>> origin/master
+>>>>>>> master
 		  return imageUrl;
 	  }
 	  try {
@@ -129,7 +201,15 @@ public class ImageDownloader extends Thread {
 			}else{
 				return("WrongFormat");
 			}
+<<<<<<< HEAD
 		//	System.out.println("inside saveImage, filetype: " + fileType + " filename: " + destinationFile);
+=======
+<<<<<<< HEAD
+		//	System.out.println("inside saveImage, filetype: " + fileType + " filename: " + destinationFile);
+=======
+			System.out.println("inside saveImage, filetype: " + fileType + " filename: " + destinationFile);
+>>>>>>> origin/master
+>>>>>>> master
 			
 		    ImageIO.write(image, fileType, new File(destinationFile));
 		} catch (IOException e) {
@@ -137,7 +217,16 @@ public class ImageDownloader extends Thread {
 			System.out.println("halp");
 			return("IOException");
 		}
+<<<<<<< HEAD
 	  //System.out.println("heyfinished");
 	  return destinationFile;
+=======
+<<<<<<< HEAD
+	  //System.out.println("heyfinished");
+	  return destinationFile;
+=======
+  return destinationFile;
+>>>>>>> origin/master
+>>>>>>> master
  }
 }

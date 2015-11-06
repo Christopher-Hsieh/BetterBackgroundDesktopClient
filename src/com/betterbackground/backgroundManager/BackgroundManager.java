@@ -21,6 +21,8 @@ public class BackgroundManager implements GetUrlsListener{
 	ArrayList<String> seen;
 	String directory = "C:\\Users\\Public\\BetterBackground";
 	
+<<<<<<< HEAD
+=======
 	@Override
 	public void getUrlsResult(String[] urls){
 		System.out.println(urls);
@@ -34,9 +36,14 @@ public class BackgroundManager implements GetUrlsListener{
 		id = new ImageDownloader(count,pics);
 		id.start();
 	}
+>>>>>>> origin/master
 	
 	public void newChannel(String name, String[] urls){
+<<<<<<< HEAD
 		System.out.println("Hey i'm in newchannel");
+=======
+		//System.out.println("Hey i'm in newchannel");
+>>>>>>> master
 		boolean found = false;
 		for(int i = 0; i < seen.size(); i ++){
 			if(seen.get(i).equals(name)){
@@ -74,8 +81,18 @@ public class BackgroundManager implements GetUrlsListener{
 	
 	public void startWallpaperCycler(){
 		wp = new WallpaperCycler(pics);
+<<<<<<< HEAD
 		wp.start();
 		//System.out.println("started both");
+=======
+<<<<<<< HEAD
+		wp.start();
+		//System.out.println("started both");
+=======
+		wp.getBatch();
+		wp.run();
+>>>>>>> origin/master
+>>>>>>> master
 	}
 	
 	
@@ -85,15 +102,33 @@ public class BackgroundManager implements GetUrlsListener{
     	/*makes the folder should it not exits/exists with pictures in it*/
 		File index = new File(directory);
 		if (Files.exists(Paths.get(directory))) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> master
 			String[] entries = index.list();
 			for(String s: entries){
 			    File currentFile = new File(index.getPath(),s);
 			    currentFile.delete();
 			}
 			//System.out.println("It was real");
+<<<<<<< HEAD
 		}    
 		boolean success = new File(directory).mkdir();
 		if(success != true){
+=======
+		}    
+		boolean success = new File(directory).mkdir();
+		if(success != true){
+=======
+			new File(directory).delete();
+			System.out.println("It was real");
+		}    
+		boolean success = new File(directory).mkdir();
+		if(success != true){
+			//this failed
+>>>>>>> origin/master
+>>>>>>> master
 			//System.out.println("failed in making the folder");
 		}else{
 			//System.out.println("Created" + directory);
