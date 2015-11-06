@@ -36,13 +36,21 @@ public class Login extends JFrame implements LoginListener {
 	private JTextField textUsername = new JTextField(20);
 	private JPasswordField fieldPassword = new JPasswordField(20);
 	public JButton buttonLogin = new JButton("Login");
+	private static Login instance;
 
 	private JLabel status = new JLabel(" Please Log in");
 	JPanel newPanel;
 
+	public static Login getInstance(){
+		if(instance == null){
+			instance = new Login();
+		}
+		return instance;
+	}
+	
 	public Login() {
-		//super("Better Background Login");
-
+		super("Better Background");
+		
 		// create a new panel w. GridBagLayout
 		newPanel = new JPanel(new GridBagLayout());
 
@@ -96,6 +104,10 @@ public class Login extends JFrame implements LoginListener {
 		pack();
 		setLocationRelativeTo(null);
 	}
+	
+	public void updateStatus(String newStatus){
+		status.setText(newStatus);
+	}
 
 	public void createLoginUI() {
 		try {
@@ -112,33 +124,28 @@ public class Login extends JFrame implements LoginListener {
 		});
 	}
 
-	public void createLoginListener(Login listener, UserHandler userhandler) throws URISyntaxException, InterruptedException {
-		userhandler.addLoginListener(listener);
-	}
-
-
-	// Does nothing for login. TODO Take out once login listener is done.
-	public void myChannelsResult(JSONObject jsonObject) {
-		// TODO Auto-generated method stub
-	}
-
-	static MainUI mainUI;
-
 	// Login result is returned. Handle the case accordingly
 	@Override
 	public void loginResult(boolean result) {
 		if(result) {
-			Initialize.createMainUI();
+			//destroy login
+			destroy();
+			createMainUI();
 		} else {
 			status.setText(" Login failed, please try again.");
 		}
 	}
 	
-	public void destroy(Login login) {
-		login.dispose();
-		this.dispose();
+	public void destroy() {
 		dispose();
-		login.revalidate();
 		revalidate();
+	}
+	
+	@SuppressWarnings("static-access")
+	public void createMainUI() {
+		MainUI mainUI = MainUI.getInstance();
+		mainUI.createMainUI();
+		mainUI.setDefaultCloseOperation(mainUI.DISPOSE_ON_CLOSE);
+		mainUI.setDefaultCloseOperation(mainUI.EXIT_ON_CLOSE);
 	}
 }

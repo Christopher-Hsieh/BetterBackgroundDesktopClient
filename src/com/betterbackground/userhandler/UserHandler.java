@@ -12,6 +12,7 @@ import com.betterbackground.ddpclient.DDPClient;
 import com.betterbackground.ddpclient.DDPClient.DdpMessageField;
 import com.betterbackground.ddpclient.DDPClientObserver;
 import com.betterbackground.ddpclient.DDPClientObserver.DDPSTATE;
+import com.betterbackground.gui.Login;
 import com.betterbackground.userhandler.Interfaces.GetUrlsListener;
 import com.betterbackground.userhandler.Interfaces.LoginListener;
 import com.betterbackground.userhandler.Interfaces.MyChannelsListener;
@@ -25,28 +26,32 @@ public class UserHandler implements UpdateListener {
 	private ArrayList<LoginListener> loginListeners = new ArrayList<LoginListener>();
 	private ArrayList<MyChannelsListener> myChannelsListeners = new ArrayList<MyChannelsListener>();
 	private ArrayList<GetUrlsListener> getUrlsListeners = new ArrayList<GetUrlsListener>();
+	private Login loginInstance;
+	private static UserHandler instance;
 	public DDPClient ddp = null;
 	public DDPClientObserver obs = null;
 	public Map<String, Object> myChannels;
+	public Map<String, Object> myUsers;
 
-	public UserHandler() throws URISyntaxException, InterruptedException{
-		int connectAttempts = 0;
+	public static UserHandler getInstance(){
+		if(instance == null){
+			instance = new UserHandler();
+		}
+		return instance;
+	}
+	
+	public UserHandler(){
+		loginInstance = Login.getInstance();
 		myChannels = new HashMap<String, Object>();
-		ddp = new DDPClient(Constants.sMeteorHost, Constants.sMeteorPort);
+		myUsers = new HashMap<String, Object>();
+		try {
+			ddp = new DDPClient(Constants.sMeteorHost, Constants.sMeteorPort);
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
 		obs = new DDPClientObserver();
 		obs.addUpdateListener(this);
 		ddp.addObserver(obs);
-		ddp.connect();
-			
-		//add timeout after so many attempts
-		//replace this using state change
-		while(obs.mDdpState != DDPSTATE.Connected){
-			Thread.sleep(1000);
-			if(connectAttempts++ == 20){
-				System.err.println("Too many failed attempts");
-				break;
-			}
-		}
 	}
 	
 	public void addLoginListener(LoginListener listener){
@@ -65,6 +70,28 @@ public class UserHandler implements UpdateListener {
 		ddp.disconnect();
 	}
 	
+	public void connect(){
+		int connectAttempts = 0;
+		ddp.connect();
+		
+		//add timeout after so many attempts
+		//replace this using state change
+		while(obs.mDdpState != DDPSTATE.Connected){
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if(connectAttempts++ == 20){
+				String errorMessage = "Too many failed attempts to connect to meteor server";
+				loginInstance.updateStatus(errorMessage);
+				System.err.println(errorMessage);
+				break;
+			}
+		}
+	}
+	
 	/*
 	 * This function gets notified of any state change in the observer
 	 */
@@ -79,10 +106,30 @@ public class UserHandler implements UpdateListener {
 			for (MyChannelsListener l : myChannelsListeners){
 				l.myChannelsResult(recentlyAdded);
 			}
+		} 
+		
+		else {
+			//Update occurred on Meteor side
+			
+			@SuppressWarnings("unchecked")
+			Map<String, Object> jsonFields = (Map<String, Object>) msg;
+			System.out.println(jsonFields);
+			if(jsonFields.containsValue("changed")){
+				ddp.subscribe("myChannels", new Object[] {}, obs);
+//				System.out.println("---------UPDATE----------");
+//				System.out.println(msg);
+//				System.out.println("--------END UPDATE ------");
+			}
 		}
 	}
 
 	public void login(String username, String password){
+		if(obs.mDdpState != DDPSTATE.Connected){
+			String errorMessage = "You must connect to the meteor server before logging in";
+			loginInstance.updateStatus(errorMessage);
+			System.err.println(errorMessage);
+		}
+		
         Object[] methodArgs = new Object[1];
         UsernameAuth userpass = new UsernameAuth(username, password);
         methodArgs[0] = userpass;
