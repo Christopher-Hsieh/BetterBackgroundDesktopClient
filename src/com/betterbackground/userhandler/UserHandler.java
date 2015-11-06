@@ -71,25 +71,7 @@ public class UserHandler implements UpdateListener {
 	}
 	
 	public void connect(){
-		int connectAttempts = 0;
 		ddp.connect();
-		
-		//add timeout after so many attempts
-		//replace this using state change
-		while(obs.mDdpState != DDPSTATE.Connected){
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			if(connectAttempts++ == 20){
-				String errorMessage = "Too many failed attempts to connect to meteor server";
-				loginInstance.updateStatus(errorMessage);
-				System.err.println(errorMessage);
-				break;
-			}
-		}
 	}
 	
 	/*
@@ -124,10 +106,17 @@ public class UserHandler implements UpdateListener {
 	}
 
 	public void login(String username, String password){
+		String status;
+		
 		if(obs.mDdpState != DDPSTATE.Connected){
-			String errorMessage = "You must connect to the meteor server before logging in";
-			loginInstance.updateStatus(errorMessage);
-			System.err.println(errorMessage);
+			//attempt to connect
+			connect();
+		}
+		
+		if(obs.mDdpState != DDPSTATE.Connected){
+			status = "Error connecting to meteor server";
+			loginInstance.updateStatus(status);
+			System.err.println(status);
 		}
 		
         Object[] methodArgs = new Object[1];
